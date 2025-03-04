@@ -28,16 +28,17 @@ const Navbar = () => {
   
 const navbarStyle = {
     backgroundColor: '#333',
-    padding: '10px 0',
+    padding: '20px 0',
     position: 'fixed',    
     bottom: 0,             
     width: '100%',         
-    zIndex: 1000,          
+    zIndex: 1000,     
+    boxShadow: '0px -2px 5px rgba(0,0,0,0.3)',    
 };
 
 const navListStyle = {
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-around', // distribute items evenly
   listStyleType: 'none',
   margin: 0,
   padding: 0,
@@ -52,7 +53,7 @@ const linkStyle = {
   textDecoration: 'none',
   display: 'flex',
   alignItems: 'center',
-  fontSize: '18px',
+  fontSize: '35px',
 };
 
 export default Navbar;
