@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 
-//test data for now
+// test data for now
 const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
 const recipes = [
   { id: 1, name: "Pasta", image: "logo192.png" },
@@ -14,14 +14,14 @@ const HomePage = () => {
 
   return (
     <div className="p-4">
-      {/* search Bar */}
-      <div className="flex items-center justify-center">
+      {/* search bar with filter button*/}
+      <div className="flex items-center justify-center mt-4 space-x-4">
         <TextField
           variant="outlined"
           placeholder="Search for a Recipe"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="bg-white rounded-full mx-4 my-2" 
+          className="bg-white rounded-full"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -35,18 +35,30 @@ const HomePage = () => {
                 </IconButton>
               </InputAdornment>
             ),
-            style: { 
-              height: '40px', 
-              borderRadius: '9999px', 
-              padding: '0 12px'
+            style: {
+              height: "40px",
+              borderRadius: "9999px",
+              padding: "0 12px",
             },
           }}
           sx={{
-            width: '100%',
-            maxWidth: '270px', 
-            marginTop: '16px', 
+            width: "100%",
+            maxWidth: "270px",
+            marginTop: "16px",
           }}
         />
+        {/* filter button */}
+        <IconButton
+          className="rounded-full"
+          sx={{
+            height: "40px",
+            width: "40px",
+            borderRadius: "9999px", 
+            marginTop: "16px",
+          }}
+        >
+          <Filter className="text-gray-500" />
+        </IconButton>
       </div>
     </div>
   );
