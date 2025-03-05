@@ -1,28 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 
-// test data for now
 const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
-const recipes = [
-  { id: 1, name: "Pasta", image: `${process.env.PUBLIC_URL}/logo192.png` },
-  { id: 2, name: "Chicken", image: `${process.env.PUBLIC_URL}/logo192.png` },
-  { id: 3, name: "Lemon Pie", image: `${process.env.PUBLIC_URL}/logo192.png` }
-];
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
+  const [recipes, setRecipes] = useState([]); // store recipes 
+  const [loading, setLoading] = useState(false); // tracks loading state
+  const [error, setError] = useState(""); // tracks errors
 
-  // function to test search
-  const filterRecipes = (searchQuery) => {
-    if (!searchQuery) return []; // ff search is empty return an empty array
-    return recipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  };
+  // fetch recipes from TheMealDB API
+  useEffect(() => {
+    if (search.trim() === "") {
+      setRecipes([]);
+      return;
+    }
 
-  // testing the search - filtering recipes
-  const filteredRecipes = filterRecipes(search);
+    // function to fetch data from the API
+    const fetchRecipes = async () => {
+      setLoading(true);
+      setError(""); // reset error before new request
+
+      try {
+        const response = await fetch(
+          `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`
+        );
+
+        // handle response
+        const data = await response.json();
+        
+        if (data.meals) {
+          setRecipes(data.meals);
+        } else {
+          setRecipes([]);
+        }
+      } catch (err) {
+        setError("Error fetching recipes. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipes();
+  }, [search]); // trigger whenever the search input changes
 
   return (
     <div className="p-4">
@@ -65,7 +86,7 @@ const HomePage = () => {
           sx={{
             height: "40px",
             width: "40px",
-            borderRadius: "9999px", 
+            borderRadius: "9999px",
             marginTop: "16px",
           }}
         >
@@ -73,28 +94,63 @@ const HomePage = () => {
         </IconButton>
       </div>
 
-        {/* Display Filtered Recipes */}
-      {filteredRecipes.length > 0 ? (
+      {/* display loading, error, or recipes */}
+      {loading && (
+        <div className="mt-4 text-center text-gray-500">Loading recipes...</div>
+      )}
+
+      {error && (
+        <div className="mt-4 text-center text-red-500">{error}</div>
+      )}
+
+      {recipes.length > 0 ? (
         <div className="mt-4 flex flex-col items-center">
-          {filteredRecipes.map((recipe) => (
-            <div key={recipe.id} className="text-center">
+          {recipes.map((recipe) => (
+            <div key={recipe.idMeal} className="text-center">
               <img
-                src={recipe.image}
-                alt={recipe.name}
-                className="rounded-lg w-60 h-60 object-cover"
+                src={recipe.strMealThumb}
+                alt={recipe.strMeal}
+                
+                className="recipe-img"
               />
-              <h3 className="mt-2 text-lg font-semibold">{recipe.name}</h3>
+              <h3 className="mt-2 text-lg font-semibold">{recipe.strMeal}</h3>
             </div>
           ))}
         </div>
       ) : (
-        search && (
+        search && !loading && (
           <div className="mt-4 text-center text-gray-500">
             No recipes found for "{search}"
           </div>
         )
       )}
-      
+
+      {/* CSS Styling for images */}
+      <style jsx>{`
+        .recipe-img {
+          width: 100%;
+          height: auto;
+          max-width: 50rem; /* Max size for larger screens */
+          height: 50rem;
+          object-fit: cover; /* Ensures the image covers the square */
+          border-radius: 0.5rem; /* Optional rounded corners */
+        }
+
+        /* Media queries for responsiveness */
+        @media screen and (max-width: 768px) {
+          .recipe-img {
+            max-width: 20rem; /* Adjust the size for smaller screens */
+            height: 20rem;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .recipe-img {
+            max-width: 20rem; /* Adjust the size for very small screens */
+            height: 20rem;
+          }
+        }
+      `}</style>
     </div>
   );
 };
