@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';  // Import Routes and Route
-import Navbar from './components/Navbar';  // Import the Navbar component
+import { Route, Routes } from 'react-router-dom';  
+import TopBar from "./components/TopBar"; // 
+import Navbar from './components/Navbar';  
 import ScanReceipts from './components/ScanReceipts';
 import ShoppingLists from './components/ShoppingLists';
 import SavedRecipes from './components/SavedRecipes';
@@ -13,7 +14,9 @@ function App() {
   return (
     
     <div className="App">
+       <TopBar />
        <Navbar />
+       <div style={{ marginTop: "45px" }}> {/* margin the same height as the topbar so the page doesn't get hidden */}
        <Routes>
          <Route path="/scan-recipes" element={<ScanReceipts />} />
          <Route path="/shopping-lists" element={<ShoppingLists />} />
@@ -21,6 +24,7 @@ function App() {
          <Route path="/my-profile" element={<MyProfile />} />
          <Route path="/" element={<HomePage />} />
        </Routes>
+       </div>
       
        
       <header className="App-header">
