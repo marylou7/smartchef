@@ -1,25 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCamera, FaList, FaHome, FaBookmark, FaUser } from 'react-icons/fa';
+import { CameraAlt, List, Home, BookmarkBorder, AccountCircle } from '@mui/icons-material';
 
 const Navbar = () => {
     return (
       <nav style={navbarStyle}>
         <ul style={navListStyle}>
           <li style={navItemStyle}>
-            <Link to="/scan-recipes" style={linkStyle}><FaCamera /></Link>
+            <Link to="/scan-recipes" style={linkStyle}><CameraAlt /></Link>
           </li>
           <li style={navItemStyle}>
-            <Link to="/shopping-lists" style={linkStyle}><FaList /></Link>
+            <Link to="/shopping-lists" style={linkStyle}><List /></Link>
           </li>
           <li style={navItemStyle}>
-            <Link to="/" style={linkStyle}><FaHome /></Link>
+            <Link to="/" style={linkStyle}><Home /></Link>
           </li>
           <li style={navItemStyle}>
-            <Link to="/saved-recipes" style={linkStyle}><FaBookmark /></Link>
+            <Link to="/saved-recipes" style={linkStyle}><BookmarkBorder /></Link>
           </li>
           <li style={navItemStyle}>
-            <Link to="/my-profile" style={linkStyle}><FaUser /></Link>
+            <Link to="/my-profile" style={linkStyle}><AccountCircle /></Link>
           </li>
         </ul>
       </nav>
@@ -33,7 +33,7 @@ const navbarStyle = {
     bottom: 0,             
     width: '100%',         
     zIndex: 1000, 
-    height: '30px'         
+    height: '20px'         
 };
 
 const navListStyle = {
