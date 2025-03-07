@@ -7,44 +7,59 @@ const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
-  const [recipes, setRecipes] = useState([]); // store recipes 
-  const [loading, setLoading] = useState(false); // tracks loading state
-  const [error, setError] = useState(""); // tracks errors
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // fetch recipes from TheMealDB API
+  // Function to fetch multiple random meals
+  const fetchRandomMeals = async (count = 5) => {
+    setLoading(true);
+    setError("");
+    try {
+      const requests = Array.from({ length: count }, () =>
+        fetch("https://www.themealdb.com/api/json/v1/1/random.php").then((res) =>
+          res.json()
+        )
+      );
+
+      const responses = await Promise.all(requests);
+      const meals = responses
+        .map((response) => response.meals?.[0]) 
+        .filter(Boolean); 
+
+      setRecipes(meals);
+    } catch (err) {
+      setError("Error fetching recipes. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (search.trim() === "") {
-      setRecipes([]);
-      return;
-    }
+      fetchRandomMeals(5); // fetch 10 random meals when no search term is given
+    } else {
+      const fetchSearchedRecipes = async () => {
+        setLoading(true);
+        setError("");
 
-    // function to fetch data from the API
-    const fetchRecipes = async () => {
-      setLoading(true);
-      setError(""); // reset error before new request
+        try {
+          const response = await fetch(
+            `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`
+          );
+          const data = await response.json();
 
-      try {
-        const response = await fetch(
-          `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`
-        );
-
-        // handle response
-        const data = await response.json();
-        
-        if (data.meals) {
-          setRecipes(data.meals);
-        } else {
-          setRecipes([]);
+          setRecipes(data.meals || []);
+        } catch (err) {
+          setError("Error fetching recipes. Please try again later.");
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        setError("Error fetching recipes. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchRecipes();
-  }, [search]); // trigger whenever the search input changes
+      fetchSearchedRecipes();
+    }
+  }, [search]);
 
   return (
     <div className="p-4">
