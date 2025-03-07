@@ -30,7 +30,7 @@ const styles = {
   topBar: {
     width: "100%",
     height: "45px",
-    backgroundColor: "#000",
+    backgroundColor: "#FFDAB9",
     color: "white",
     display: "flex",
     alignItems: "center",
@@ -45,6 +45,7 @@ const styles = {
     fontFamily: "'Montserrat', sans-serif", 
     fontSize: "17px",
     fontWeight: "bold",
+    color: "#000"
   },
   smartTitle: {
     fontFamily: "'Dancing Script', cursive",  
