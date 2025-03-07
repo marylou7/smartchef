@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { Link } from "react-router-dom"; 
 
 const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
 
@@ -107,12 +108,13 @@ const HomePage = () => {
         <div className="mt-4 flex flex-col items-center">
           {recipes.map((recipe) => (
             <div key={recipe.idMeal} className="text-center">
+               <Link to={`/recipe/${recipe.idMeal}`}>
               <img
                 src={recipe.strMealThumb}
                 alt={recipe.strMeal}
-                
                 className="recipe-img"
               />
+              </Link>
               <h3 className="mt-2 text-lg font-semibold">{recipe.strMeal}</h3>
             </div>
           ))}
@@ -126,14 +128,16 @@ const HomePage = () => {
       )}
 
       {/* CSS Styling for images */}
-      <style jsx>{`
+      <style>{`
         .recipe-img {
           width: 100%;
           height: auto;
-          max-width: 50rem; /* Max size for larger screens */
+          max-width: 50rem; 
           height: 50rem;
-          object-fit: cover; /* Ensures the image covers the square */
-          border-radius: 0.5rem; /* Optional rounded corners */
+          object-fit: cover; 
+          border-radius: 0.5rem;
+          margin-top: 20px; 
+          margin-bottom: 20px; 
         }
 
         /* Media queries for responsiveness */

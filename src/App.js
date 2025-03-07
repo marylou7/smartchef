@@ -9,6 +9,7 @@ import ShoppingLists from './components/ShoppingLists';
 import SavedRecipes from './components/SavedRecipes';
 import MyProfile from './components/MyProfile';
 import HomePage from './components/HomePage';
+import RecipePage from './components/RecipePage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
          <Route path="/saved-recipes" element={<SavedRecipes />} />
          <Route path="/my-profile" element={<MyProfile />} />
          <Route path="/" element={<HomePage />} />
+         <Route path="/recipe/:id" element={<RecipePage />} /> 
        </Routes>
        </div>
     </div>
