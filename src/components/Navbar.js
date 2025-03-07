@@ -1,40 +1,41 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCamera, FaList, FaHome, FaBookmark, FaUser } from 'react-icons/fa';
+import { CameraAlt, List, Home, BookmarkBorder, AccountCircle } from '@mui/icons-material';
 
 const Navbar = () => {
     return (
       <nav style={navbarStyle}>
-        <ul style={navListStyle}>
-          <li style={navItemStyle}>
-            <Link to="/scan-recipes" style={linkStyle}><FaCamera /></Link>
-          </li>
-          <li style={navItemStyle}>
-            <Link to="/shopping-lists" style={linkStyle}><FaList /></Link>
-          </li>
-          <li style={navItemStyle}>
-            <Link to="/" style={linkStyle}><FaHome /></Link>
-          </li>
-          <li style={navItemStyle}>
-            <Link to="/saved-recipes" style={linkStyle}><FaBookmark /></Link>
-          </li>
-          <li style={navItemStyle}>
-            <Link to="/my-profile" style={linkStyle}><FaUser /></Link>
-          </li>
-        </ul>
-      </nav>
+      <ul style={navListStyle}>
+        <li style={navItemStyle}>
+          <Link to="/scan-recipes" style={linkStyle}><CameraAlt sx={{ fontSize: 36 }} /></Link> 
+        </li>
+        <li style={navItemStyle}>
+          <Link to="/shopping-lists" style={linkStyle}><List sx={{ fontSize: 36 }} /></Link>
+        </li>
+        <li style={navItemStyle}>
+          <Link to="/" style={linkStyle}><Home sx={{ fontSize: 36 }} /></Link> 
+        </li>
+        <li style={navItemStyle}>
+          <Link to="/saved-recipes" style={linkStyle}><BookmarkBorder sx={{ fontSize: 36 }} /></Link>
+        </li>
+        <li style={navItemStyle}>
+          <Link to="/my-profile" style={linkStyle}><AccountCircle sx={{ fontSize: 36 }} /></Link> 
+        </li>
+      </ul>
+    </nav>
     );
   };
   
-const navbarStyle = {
-    backgroundColor: '#333',
+  const navbarStyle = {
+    backgroundColor: 'white',
     padding: '20px 0',
-    position: 'fixed',    
-    bottom: 0,             
-    width: '100%',         
-    zIndex: 1000, 
-    height: '30px'         
-};
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    zIndex: 1000,
+    height: '20px',
+    boxShadow: '0px -4px 10px rgba(0, 0, 0, 0.2)', 
+  };
 
 const navListStyle = {
   display: 'flex',
@@ -49,7 +50,7 @@ const navItemStyle = {
 };
 
 const linkStyle = {
-  color: '#fff',
+  color: '#000',
   textDecoration: 'none',
   display: 'flex',
   alignItems: 'center',
