@@ -27,7 +27,7 @@ const Navbar = () => {
   };
   
 const navbarStyle = {
-    backgroundColor: '#333',
+    backgroundColor: '#000',
     padding: '20px 0',
     position: 'fixed',    
     bottom: 0,             
