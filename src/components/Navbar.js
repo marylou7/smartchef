@@ -30,7 +30,7 @@ const Navbar = () => {
     backgroundColor: 'white',
     padding: '20px 0',
     position: 'fixed',
-    bottom: 10,
+    bottom: 0,
     width: '100%',
     zIndex: 1000,
     height: '20px',
