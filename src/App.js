@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';  
+import { Route, Routes } from 'react-router-dom';  
 import TopBar from "./components/TopBar"; // 
 import Navbar from './components/Navbar';  
 import ScanReceipts from './components/ScanReceipts';
@@ -13,7 +13,7 @@ import RecipePage from './components/RecipePage';
 
 function App() {
   return (
-    <BrowserRouter basename="/smartchef">
+    
     <div className="App">
        <TopBar />
        <Navbar />
@@ -28,7 +28,7 @@ function App() {
        </Routes>
        </div>
     </div>
-    </BrowserRouter>
+    
   );
 }
 
