@@ -1,0 +1,41 @@
+.scan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; 
+    margin-top: 100px;
+}
+
+
+.video-feed-box {
+    display: grid;
+    width: 20rem;
+    height: 20rem;
+    justify-items: center;
+    align-items: center;
+    border: 2px solid #4b5563;
+}
+
+
+.camera-button {
+    background-color: #3b82f6; 
+    color: white;
+    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.camera-button:hover {
+    background-color: #2563eb; 
+}
+
+.camera-button:active {
+    background-color: #001b74; 
+}
