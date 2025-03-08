@@ -1,25 +1,36 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa"; 
 
 const pageTitles = {
   "/": "SmartChef",
   "/scan-recipes": "Scan Recipes",
   "/shopping-lists": "Shopping Lists",
   "/saved-recipes": "Saved Recipes",
-  "/my-profile": "My Profile"
+  "/my-profile": "My Profile",
+  "/recipe/": "SmartChef"
 };
 
 const TopBar = () => {
   const location = useLocation();
-  const pageTitle = pageTitles[location.pathname] || "Page Not Found";
+  const navigate = useNavigate();
+  const pageTitle = pageTitles[location.pathname] || "SmartChef";
+  const isSmartChefPage = pageTitle === "SmartChef";
+  const isRecipePage = location.pathname.startsWith("/recipe");
 
-  // Check if the page is the homepage to apply the smart font
-  const isHomePage = location.pathname === "/";
+  const handleBackClick = () => {
+    navigate(-1); // Go back to the previous page
+  };
 
   return (
     <div style={styles.topBar}>
+      {isRecipePage && (
+         <button onClick={handleBackClick} style={styles.backButton}>
+         <FaArrowLeft style={styles.backIcon} /> 
+       </button>
+      )}
       <h1 style={styles.title}>
-        {isHomePage && <span style={styles.smartTitle}>Smart</span>}
+        {isSmartChefPage && <span style={styles.smartTitle}>Smart</span>}
         {pageTitle.replace("Smart", "")}
       </h1>
     </div>
@@ -51,7 +62,21 @@ const styles = {
     fontFamily: "'Dancing Script', cursive",  
     fontSize: "22px",
     color: "#FF6347",
-  }
+  },
+  backButton: {
+    position: "absolute",
+    left: "10px",
+    backgroundColor: "#FF6347",
+    color: "#fff",
+    border: "none",
+    padding: "5px 10px", 
+    fontSize: "14px",      
+    cursor: "pointer",
+    borderRadius: "5px",
+    zIndex: 1001,
+    display: "flex",
+    alignItems: "center", 
+  },
 };
 
 export default TopBar;
