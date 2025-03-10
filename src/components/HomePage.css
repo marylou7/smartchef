@@ -1,0 +1,76 @@
+.recipe-img {
+    width: 100%;
+    height: auto;
+    max-width: 50rem;
+    height: 50rem;
+    object-fit: cover;
+    border-radius: 0.9rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Dark mode styles for recipe images */
+@media (prefers-color-scheme: dark) {
+    .recipe-img {
+      border: 2px solid #ffffff;  
+    }
+  }
+  
+  /* Media queries for responsiveness */
+  @media screen and (max-width: 768px) {
+    .recipe-img {
+      max-width: 20rem; 
+      height: 20rem;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .recipe-img {
+      max-width: 20rem; 
+      height: 20rem;
+    }
+  }
+  
+
+  /* Search Bar Styles */
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+  
+  .search-bar {
+    border-radius: 9999px;
+    width: 100%;
+    max-width: 270px;
+    padding: 0 12px;
+    background-color: #fff;
+  }
+  
+  .search-bar .MuiInputBase-root {
+    height: 40px;
+  }
+
+
+.filter-btn {
+    height: 40px;
+    width: 40px;
+    border-radius: 9999px;
+    margin-top: 16px;
+    
+  }
+
+  .filter-icon {
+    color: #6b7280; 
+  }
+  
+
+  body.dark .search-bar .MuiInputBase-root {
+    background-color: #fff; 
+    color: #000; 
+    height: 40px;
+  }
+  

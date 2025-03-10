@@ -1,0 +1,60 @@
+/* Default styles for light mode */
+.navbar {
+    background-color: white;
+    padding: 20px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    height: 20px;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-item {
+    margin: 0 15px;
+  }
+  
+  .nav-link {
+    color: #000; /* Black text for light mode */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 35px;
+  }
+
+
+.filter-btn {
+  height: 40px;
+  width: 40px;
+  border-radius: 9999px;
+  margin-top: 20px;
+}
+  
+
+  body.dark .navbar {
+    background-color: #000; 
+    box-shadow: 0px -4px 10px rgba(255, 255, 255, 0.2);
+  }
+  
+  body.dark .nav-link {
+    color: white;
+  }
+  
+  
+  body.dark {
+    background-color: #121212; 
+    color: #fff; 
+  }
+  
+  body.dark code {
+    color: #f5f5f5; 
+  }
+  

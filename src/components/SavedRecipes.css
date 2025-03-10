@@ -38,13 +38,11 @@
   .recipe-name {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
     margin-top: 10px;
     text-align: center;
   }
   
   p {
     font-size: 15px;
-    color: #555;
     text-align: center;
   }

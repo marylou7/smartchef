@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
+import './HomePage.css'; 
 
 const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
 
@@ -24,8 +25,8 @@ const HomePage = () => {
 
       const responses = await Promise.all(requests);
       const meals = responses
-        .map((response) => response.meals?.[0]) 
-        .filter(Boolean); 
+        .map((response) => response.meals?.[0])
+        .filter(Boolean);
 
       setRecipes(meals);
     } catch (err) {
@@ -37,7 +38,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (search.trim() === "") {
-      fetchRandomMeals(5); // fetch 10 random meals when no search term is given
+      fetchRandomMeals(5); // fetch 5 random meals when no search term is given
     } else {
       const fetchSearchedRecipes = async () => {
         setLoading(true);
@@ -63,24 +64,24 @@ const HomePage = () => {
 
   return (
     <div className="p-4">
-      {/* search bar with filter button*/}
-      <div className="flex items-center justify-center mt-4 space-x-4">
+      {/* search bar with filter button */}
+      <div className="search-container">
         <TextField
           variant="outlined"
           placeholder="Search for a Recipe"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="bg-white rounded-full"
+          className="search-bar"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Search className="text-gray-500" />
+                <Search className="search-icon" />
               </InputAdornment>
             ),
             endAdornment: search && (
               <InputAdornment position="end">
                 <IconButton onClick={() => setSearch("")}>
-                  <X className="text-gray-500" />
+                  <X className="search-icon" />
                 </IconButton>
               </InputAdornment>
             ),
@@ -97,17 +98,10 @@ const HomePage = () => {
           }}
         />
         {/* filter button */}
-        <IconButton
-          className="rounded-full"
-          sx={{
-            height: "40px",
-            width: "40px",
-            borderRadius: "9999px",
-            marginTop: "16px",
-          }}
-        >
-          <Filter className="text-gray-500" />
-        </IconButton>
+          <IconButton className="filter-btn">
+            <Filter className="filter-icon" />
+          </IconButton>
+
       </div>
 
       {/* display loading, error, or recipes */}
@@ -123,12 +117,12 @@ const HomePage = () => {
         <div className="mt-4 flex flex-col items-center">
           {recipes.map((recipe) => (
             <div key={recipe.idMeal} className="text-center">
-               <Link to={`/recipe/${recipe.idMeal}`}>
-              <img
-                src={recipe.strMealThumb}
-                alt={recipe.strMeal}
-                className="recipe-img"
-              />
+              <Link to={`/recipe/${recipe.idMeal}`}>
+                <img
+                  src={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                  className="recipe-img"
+                />
               </Link>
               <h3 className="mt-2 text-lg font-semibold">{recipe.strMeal}</h3>
             </div>
@@ -141,35 +135,6 @@ const HomePage = () => {
           </div>
         )
       )}
-
-      {/* CSS Styling for images */}
-      <style>{`
-        .recipe-img {
-          width: 100%;
-          height: auto;
-          max-width: 50rem; 
-          height: 50rem;
-          object-fit: cover; 
-          border-radius: 0.5rem;
-          margin-top: 20px; 
-          margin-bottom: 20px; 
-        }
-
-        /* Media queries for responsiveness */
-        @media screen and (max-width: 768px) {
-          .recipe-img {
-            max-width: 20rem; /* Adjust the size for smaller screens */
-            height: 20rem;
-          }
-        }
-
-        @media screen and (max-width: 480px) {
-          .recipe-img {
-            max-width: 20rem; /* Adjust the size for very small screens */
-            height: 20rem;
-          }
-        }
-      `}</style>
     </div>
   );
 };
