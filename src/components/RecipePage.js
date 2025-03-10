@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaBookmark, FaShoppingCart } from "react-icons/fa";
+import { BookmarkBorder } from "@mui/icons-material";
 import './RecipePage.css';
 
 const RecipePage = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -28,6 +30,32 @@ const RecipePage = () => {
 
     fetchRecipe();
   }, [id]);
+
+  useEffect(() => {
+    // check if the recipe is already saved
+    const savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
+    setIsSaved(savedRecipes.includes(id));
+  }, [id]);
+
+  const toggleSaveRecipe = () => {
+    let savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
+    if (isSaved) {
+      savedRecipes = savedRecipes.filter(recipeId => recipeId !== id);
+    } else {
+      savedRecipes.push(id);
+    }
+    localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
+    setIsSaved(!isSaved);
+  };
+
+  const saveRecipeToLocalStorage = (id) => {
+    const savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
+    if (!savedRecipes.includes(id)) {
+      savedRecipes.push(id);
+      localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
+      console.log("Recipe saved!");
+    }
+  };
 
   if (loading) {
     return <div>Loading recipe...</div>;
@@ -54,9 +82,9 @@ const RecipePage = () => {
     <div>
       <div className="recipe-img">
         <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-        <div className="save-icon">
-        <FaBookmark onClick={() => console.log("Recipe saved!")} />
-        </div>
+        <div className="save-icon" onClick={toggleSaveRecipe}>
+            {isSaved ? <FaBookmark /> : <BookmarkBorder />}
+          </div>
         <div className="cart-icon">
         <FaShoppingCart onClick={() => console.log("Missing Ingredients added to List!")} />
         </div>
