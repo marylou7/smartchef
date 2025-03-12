@@ -1,0 +1,159 @@
+body.light {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .shopping-lists-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding-top: 10px;
+  }
+  
+  .shopping-list-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  
+  .shopping-list-card {
+    width: 300px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px -4px 5px rgb(255, 99, 71);
+  }
+
+
+  
+  .shopping-list-name h3 {
+    font-family: 'Montserrat', sans-serif; 
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .shopping-list-name {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .shopping-list-name:hover h3 {
+    color: #4CAF50;
+  }
+  
+
+  body.dark {
+    background-color: #121212; 
+    color: #f1f1f1; 
+  }
+  
+  body.dark .shopping-list-card {
+    background-color: #333; 
+    border: 2px solid #444; 
+  }
+  
+  body.dark .shopping-list-name h3 {
+    color: #f1f1f1; 
+  }
+  
+  body.dark .shopping-list-name:hover h3 {
+    color: #d7a94e;
+  }
+  
+  body.dark .shopping-list-cards {
+    gap: 15px;
+  }
+  
+  body.dark .shopping-lists-container {
+    margin-top: 50px;
+  }
+  
+
+.edit-input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+
+  .edit-input:focus {
+    outline: none;
+    border-color: #4CAF50; 
+    background-color: #f1f1f1; 
+  }
+  
+
+  .edit-input::placeholder {
+    color: #888; 
+  }
+  
+
+  body.dark .edit-input {
+    background-color: #444;
+    color: #f1f1f1;
+    border-color: #555;
+  }
+  
+  body.dark .edit-input:focus {
+    border-color: #d7a94e; 
+    background-color: #333;
+  }
+
+
+.add-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px; 
+  }
+  
+  .add-btn:hover {
+    background-color: #45a049; 
+  }
+  
+  .add-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #4CAF50; 
+  }
+  
+
+  .delete-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #f44336; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px; 
+  }
+  
+  .delete-btn:hover {
+    background-color: #e53935; 
+  }
+  
+  .delete-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #f44336; 
+  }
+  
