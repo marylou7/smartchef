@@ -8,14 +8,15 @@ const pageTitles = {
   "/shopping-lists": "Shopping Lists",
   "/saved-recipes": "Saved Recipes",
   "/my-profile": "My Profile",
-  "/recipe/": "SmartChef"
+  "/recipe/": "SmartChef",
+   "/list/": "SmartChef"
 };
 
 const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const pageTitle = pageTitles[location.pathname] || "SmartChef";
+  const pageTitle = location.pathname.startsWith("/list/") ? listName : pageTitles[location.pathname] || "SmartChef";
 
   const isSmartChefPage = pageTitle === "SmartChef";
   const isRecipePage = location.pathname.startsWith("/recipe");
