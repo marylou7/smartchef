@@ -11,34 +11,36 @@ const pageTitles = {
   "/recipe/": "SmartChef"
 };
 
-const TopBar = ({ isEditable, handleEditClick }) => {
+const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const pageTitle = pageTitles[location.pathname] || "SmartChef";
+
+   const pageTitle = location.pathname.startsWith("/list/") ? listName : "SmartChef";
+
   const isSmartChefPage = pageTitle === "SmartChef";
   const isRecipePage = location.pathname.startsWith("/recipe");
   const isShoppingListsPage = location.pathname === "/shopping-lists";
 
   const handleBackClick = () => {
-    navigate(-1); // Go back to the previous page
+    navigate(-1); // go back to the previous page
   };
 
   return (
     <div style={styles.topBar}>
       {isRecipePage && (
-         <button onClick={handleBackClick} style={styles.backButton}>
-         <FaArrowLeft style={styles.backIcon} /> 
-       </button>
+        <button onClick={handleBackClick} style={styles.backButton}>
+          <FaArrowLeft style={styles.backIcon} />
+        </button>
       )}
       <h1 style={styles.title}>
         {isSmartChefPage && <span style={styles.smartTitle}>Smart</span>}
-        {pageTitle.replace("Smart", "")}
+        {pageTitle ? pageTitle.replace("Smart", "") : ""}
       </h1>
-      
+
       {isShoppingListsPage && (
         <button onClick={handleEditClick} style={styles.editButton}>
           <FaEdit style={styles.editIcon} />
-          {isEditable ? "Done" : "Edit"} 
+          {isEditable ? "Done" : "Edit"}
         </button>
       )}
     </div>

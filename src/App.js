@@ -9,6 +9,7 @@ import SavedRecipes from './components/SavedRecipes';
 import MyProfile from './components/MyProfile';
 import HomePage from './components/HomePage';
 import RecipePage from './components/RecipePage';
+import ListPage from './components/ListPage';
 
 function App() {
   const [isEditable, setIsEditable] = useState(false);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:id" element={<RecipePage />} /> 
+          <Route path="/list/:id" element={<ListPage />} /> 
         </Routes>
       </div>
     </div>
