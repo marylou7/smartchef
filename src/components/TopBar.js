@@ -15,7 +15,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-   const pageTitle = location.pathname.startsWith("/list/") ? listName : "SmartChef";
+  const pageTitle = pageTitles[location.pathname] || "SmartChef";
 
   const isSmartChefPage = pageTitle === "SmartChef";
   const isRecipePage = location.pathname.startsWith("/recipe");
