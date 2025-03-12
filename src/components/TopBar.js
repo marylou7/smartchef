@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa"; 
+import { FaArrowLeft, FaEdit } from "react-icons/fa";
 
 const pageTitles = {
   "/": "SmartChef",
@@ -17,9 +17,15 @@ const TopBar = () => {
   const pageTitle = pageTitles[location.pathname] || "SmartChef";
   const isSmartChefPage = pageTitle === "SmartChef";
   const isRecipePage = location.pathname.startsWith("/recipe");
+  const isShoppingListsPage = location.pathname === "/shopping-lists";
 
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
+  };
+
+  const handleEditClick = () => {
+    // Testing the button works
+    console.log("Edit button clicked!");
   };
 
   return (
@@ -33,6 +39,12 @@ const TopBar = () => {
         {isSmartChefPage && <span style={styles.smartTitle}>Smart</span>}
         {pageTitle.replace("Smart", "")}
       </h1>
+      
+      {isShoppingListsPage && (
+        <button onClick={handleEditClick} style={styles.editButton}>
+          <FaEdit style={styles.editIcon} />
+        </button>
+      )}
     </div>
   );
 };
@@ -71,6 +83,20 @@ const styles = {
     border: "none",
     padding: "5px 10px", 
     fontSize: "14px",      
+    cursor: "pointer",
+    borderRadius: "5px",
+    zIndex: 1001,
+    display: "flex",
+    alignItems: "center", 
+  },
+   editButton: {
+    position: "absolute",
+    right: "10px", 
+    backgroundColor: "#FF6347", 
+    color: "#fff",
+    border: "none",
+    padding: "5px 10px", 
+    fontSize: "14px",
     cursor: "pointer",
     borderRadius: "5px",
     zIndex: 1001,
