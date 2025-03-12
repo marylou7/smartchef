@@ -8,7 +8,7 @@ body.light {
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    padding-top: 50px;
+    padding-top: 10px;
   }
   
   .shopping-list-cards {
@@ -70,5 +70,85 @@ body.light {
   
   body.dark .shopping-lists-container {
     margin-top: 50px;
+  }
+  
+
+.edit-input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+
+  .edit-input:focus {
+    outline: none;
+    border-color: #4CAF50; 
+    background-color: #f1f1f1; 
+  }
+  
+
+  .edit-input::placeholder {
+    color: #888; 
+  }
+  
+
+  body.dark .edit-input {
+    background-color: #444;
+    color: #f1f1f1;
+    border-color: #555;
+  }
+  
+  body.dark .edit-input:focus {
+    border-color: #d7a94e; 
+    background-color: #333;
+  }
+
+
+.add-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px; 
+  }
+  
+  .add-btn:hover {
+    background-color: #45a049; 
+  }
+  
+  .add-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #4CAF50; 
+  }
+  
+
+  .delete-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #f44336; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px; 
+  }
+  
+  .delete-btn:hover {
+    background-color: #e53935; 
+  }
+  
+  .delete-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #f44336; 
   }
   
