@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import TopBar from "./TopBar"; 
 
 const ListPage = () => {
   const { id } = useParams();
@@ -34,8 +35,8 @@ const ListPage = () => {
 
   return (
     <div className="list-page">
-       <h2>{listName}</h2>
-      <h4>Ingredients:</h4>
+        {/* Pass listName to TopBar */}
+        <TopBar listName={listName} isEditable={false} handleEditClick={() => {}} />
       <div>
         {items.length === 0 ? (
           <p>No items in the list</p>
