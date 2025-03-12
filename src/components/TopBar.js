@@ -11,7 +11,7 @@ const pageTitles = {
   "/recipe/": "SmartChef"
 };
 
-const TopBar = () => {
+const TopBar = ({ isEditable, handleEditClick }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const pageTitle = pageTitles[location.pathname] || "SmartChef";
@@ -21,11 +21,6 @@ const TopBar = () => {
 
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
-  };
-
-  const handleEditClick = () => {
-    // Testing the button works
-    console.log("Edit button clicked!");
   };
 
   return (
@@ -43,6 +38,7 @@ const TopBar = () => {
       {isShoppingListsPage && (
         <button onClick={handleEditClick} style={styles.editButton}>
           <FaEdit style={styles.editIcon} />
+          {isEditable ? "Done" : "Edit"} 
         </button>
       )}
     </div>
