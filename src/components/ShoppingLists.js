@@ -45,6 +45,10 @@ const ShoppingLists = ({ isEditable }) => {
   };
 
   const handleCardClick = (id) => {
+    if (isEditable) {
+      // prevents navigating when in edit mode
+      return;
+    }
     navigate(`/list/${id}`);  
   };
 
