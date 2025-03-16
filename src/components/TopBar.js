@@ -21,6 +21,8 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const isSmartChefPage = pageTitle === "SmartChef";
   const isRecipePage = location.pathname.startsWith("/recipe");
   const isShoppingListsPage = location.pathname === "/shopping-lists";
+  const isListPage = location.pathname.startsWith("/list/");
+
 
   const handleBackClick = () => {
     navigate(-1); // go back to the previous page
@@ -28,7 +30,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
 
   return (
     <div style={styles.topBar}>
-      {isRecipePage && (
+      {(isRecipePage|| isListPage) && (
         <button onClick={handleBackClick} style={styles.backButton}>
           <FaArrowLeft style={styles.backIcon} />
         </button>
@@ -43,6 +45,14 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
           <FaEdit style={styles.editIcon} />
           {isEditable ? "Done" : "Edit"}
         </button>
+      )}
+
+      {isListPage && (
+        <button onClick={handleEditClick} style={styles.editButton}>
+          <FaEdit style={styles.editIcon} />
+          {isEditable ? "Done" : "Edit"}
+        </button>
+        
       )}
     </div>
   );
