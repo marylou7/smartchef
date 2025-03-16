@@ -8,7 +8,7 @@ body.light {
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    padding-top: 10px;
+    padding-top: 20px;
   }
   
   .shopping-list-cards {
