@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SavedRecipes.css";
-import { FaBookmark} from "react-icons/fa";
+import { Bookmark } from "@mui/icons-material";
 
 const SavedRecipes = () => {
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -88,13 +88,12 @@ const SavedRecipes = () => {
           >
             <img src={recipe.image} alt={recipe.name} className="recipe-image" />
             <h3 className="recipe-name">{recipe.name}</h3>
-            <FaBookmark
+            <Bookmark  className="bookmark-icon"
               onClick={(e) => {
                 e.stopPropagation();
                 handleUnsave(recipe.id);
               }}
             />
-            <p>ID: {recipe.id}</p>
           </div>
         ))
       )}
