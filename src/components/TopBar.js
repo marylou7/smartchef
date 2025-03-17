@@ -54,7 +54,13 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
           <FaEdit style={styles.editIcon} />
           {isEditable ? "Done" : "Edit"}
         </button>
-        
+      )}
+
+       {isMyIngredientsPage && (
+        <button onClick={handleEditClick} style={styles.editButton}>
+          <FaEdit style={styles.editIcon} />
+          {isEditable ? "Done" : "Edit"}
+        </button>
       )}
     </div>
   );
