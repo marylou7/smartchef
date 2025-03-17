@@ -4,15 +4,13 @@ import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import './HomePage.css'; 
 
-const filters = ["Quick & Easy", "Dietary Requirements", "Another Filter"];
-
 const HomePage = () => {
   const [search, setSearch] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Function to fetch multiple random meals
+  // function to fetch multiple random meals
   const fetchRandomMeals = async (count = 5) => {
     setLoading(true);
     setError("");
@@ -28,6 +26,9 @@ const HomePage = () => {
         .map((response) => response.meals?.[0])
         .filter(Boolean);
 
+      // store meals in local storage
+      localStorage.setItem("randomMeals", JSON.stringify(meals));
+
       setRecipes(meals);
     } catch (err) {
       setError("Error fetching recipes. Please try again later.");
@@ -37,8 +38,18 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    // check if meals are already in local storage
+    const savedMeals = localStorage.getItem("randomMeals");
+    if (savedMeals) {
+      setRecipes(JSON.parse(savedMeals));
+    } else {
+      fetchRandomMeals(5); // fetch 5 random meals if no saved meals for now
+    }
+  }, []); 
+
+  useEffect(() => {
     if (search.trim() === "") {
-      fetchRandomMeals(5); // fetch 5 random meals when no search term is given
+      //display the 5 random meals here
     } else {
       const fetchSearchedRecipes = async () => {
         setLoading(true);
@@ -98,10 +109,9 @@ const HomePage = () => {
           }}
         />
         {/* filter button */}
-          <IconButton className="filter-btn">
-            <Filter className="filter-icon" />
-          </IconButton>
-
+        <IconButton className="filter-btn">
+          <Filter className="filter-icon" />
+        </IconButton>
       </div>
 
       {/* display loading, error, or recipes */}
@@ -114,17 +124,13 @@ const HomePage = () => {
       )}
 
       {recipes.length > 0 ? (
-        <div className="mt-4 flex flex-col items-center">
+        <div className="recipes-container">
           {recipes.map((recipe) => (
-            <div key={recipe.idMeal} className="text-center">
+            <div key={recipe.idMeal} className="recipe-card">
               <Link to={`/recipe/${recipe.idMeal}`}>
-                <img
-                  src={recipe.strMealThumb}
-                  alt={recipe.strMeal}
-                  className="recipe-img"
-                />
+                <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
               </Link>
-              <h3 className="mt-2 text-lg font-semibold">{recipe.strMeal}</h3>
+              <h3 className="recipe-name">{recipe.strMeal}</h3>
             </div>
           ))}
         </div>
