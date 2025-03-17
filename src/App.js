@@ -10,6 +10,7 @@ import MyProfile from './components/MyProfile';
 import HomePage from './components/HomePage';
 import RecipePage from './components/RecipePage';
 import ListPage from './components/ListPage';
+import MyIngredientsPage from './components/MyIngredientsPage';
 
 function App() {
   const [isEditable, setIsEditable] = useState(false);
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/recipe/:id" element={<RecipePage />} /> 
           <Route path="/list/:id" element={<ListPage />} /> 
+          <Route path="/my-ingredients" element={<MyIngredientsPage />} /> 
         </Routes>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { ToggleSlider } from "react-toggle-slider";
 import "./MyProfile.css"; 
 import { FaHamburger } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -12,6 +13,7 @@ const MyProfile = () => {
   const [active, setActive] = useState(false);
   const [dietPreferences, setDietPreferences] = useState([]); 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();  
 
   const dropdownRef = useRef(null); 
 
@@ -70,6 +72,10 @@ const MyProfile = () => {
     localStorage.setItem("dietPreferences", JSON.stringify(updatedPreferences));
   };
 
+  const handleButtonClick = () => {
+    navigate("/my-ingredients"); 
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -80,7 +86,7 @@ const MyProfile = () => {
 <div className="ingredients-container">
         <h3>View My Ingredients</h3>
         <div className="button-container">
-          <button className="ingredients-btn">
+        <button className="ingredients-btn" onClick={handleButtonClick}>
          <FaHamburger className="burger-icon" /> View My Ingredients
        </button>
       </div>
