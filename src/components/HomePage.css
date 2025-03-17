@@ -1,37 +1,45 @@
-.recipe-img {
-    width: 100%;
-    height: auto;
-    max-width: 50rem;
-    height: 50rem;
-    object-fit: cover;
-    border-radius: 0.9rem;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+.recipes-container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 20px;
+margin-top: 20px;
+margin-bottom: 40px;
+}
 
-  /* Dark mode styles for recipe images */
-@media (prefers-color-scheme: dark) {
-    .recipe-img {
-      border: 2px solid #ffffff;  
-    }
-  }
-  
-  /* Media queries for responsiveness */
-  @media screen and (max-width: 768px) {
-    .recipe-img {
-      max-width: 20rem; 
-      height: 20rem;
-    }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .recipe-img {
-      max-width: 20rem; 
-      height: 20rem;
-    }
-  }
+.recipe-card {
+  width: 300px;
+  height: auto;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
   
 
+.recipe-image {
+  width: 300px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  position: relative;
+  }
+
+  .recipe-name {
+    font-size: 17px; 
+    font-weight: bold; 
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif; 
+  }
+  
   /* Search Bar Styles */
 .search-container {
     display: flex;
@@ -59,13 +67,60 @@
     height: 40px;
     width: 40px;
     border-radius: 9999px;
-    margin-top: 16px;
+    margin-top: 32px;
     
   }
 
   .filter-icon {
     color: #6b7280; 
+    margin-top: 14px;
   }
+
+
+  .filter-dropdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .filter-option {
+    background-color: #f3f4f6;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .filter-option.selected {
+    background-color: #10b981; 
+    color: white;
+  }
+  
+  .selected-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .filter-tag {
+    background-color: #10b981;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .remove-filter {
+    cursor: pointer;
+  }
+  
   
 
   body.dark .search-bar .MuiInputBase-root {
