@@ -4,11 +4,15 @@ import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import './HomePage.css'; 
 
+const filtersList = ["Filter 1", "Filter 2", "Filter 3", "Filter 4", "Filter 5"];
+
 const HomePage = () => {
   const [search, setSearch] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   // function to fetch multiple random meals
   const fetchRandomMeals = async (count = 5) => {
@@ -49,7 +53,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (search.trim() === "") {
-      //display the 5 random meals here
+      // display the 5 random meals here
     } else {
       const fetchSearchedRecipes = async () => {
         setLoading(true);
@@ -72,6 +76,23 @@ const HomePage = () => {
       fetchSearchedRecipes();
     }
   }, [search]);
+
+  // filter dropdown toggle
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
+
+  // handlesfilter selection
+  const handleFilterClick = (filter) => {
+    setSelectedFilters((prev) =>
+      prev.includes(filter) ? prev.filter((f) => f !== filter) : [...prev, filter]
+    );
+  };
+
+  // removes filter
+  const removeFilter = (filter) => {
+    setSelectedFilters(selectedFilters.filter((f) => f !== filter));
+  };
 
   return (
     <div className="p-4">
@@ -109,9 +130,34 @@ const HomePage = () => {
           }}
         />
         {/* filter button */}
-        <IconButton className="filter-btn">
+        <IconButton className="filter-btn" onClick={toggleFilters}>
           <Filter className="filter-icon" />
         </IconButton>
+      </div>
+
+      {/* Filters Dropdown */}
+      {showFilters && (
+        <div className="filter-dropdown">
+          {filtersList.map((filter) => (
+            <button 
+              key={filter} 
+              className={`filter-option ${selectedFilters.includes(filter) ? "selected" : ""}`}
+              onClick={() => handleFilterClick(filter)}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Display selected filters */}
+      <div className="selected-filters">
+        {selectedFilters.map((filter) => (
+          <span key={filter} className="filter-tag">
+            {filter}
+            <X className="remove-filter" onClick={() => removeFilter(filter)} />
+          </span>
+        ))}
       </div>
 
       {/* display loading, error, or recipes */}

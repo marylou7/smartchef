@@ -67,13 +67,60 @@ margin-bottom: 40px;
     height: 40px;
     width: 40px;
     border-radius: 9999px;
-    margin-top: 16px;
+    margin-top: 32px;
     
   }
 
   .filter-icon {
     color: #6b7280; 
+    margin-top: 14px;
   }
+
+
+  .filter-dropdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .filter-option {
+    background-color: #f3f4f6;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .filter-option.selected {
+    background-color: #10b981; 
+    color: white;
+  }
+  
+  .selected-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .filter-tag {
+    background-color: #10b981;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .remove-filter {
+    cursor: pointer;
+  }
+  
   
 
   body.dark .search-bar .MuiInputBase-root {
