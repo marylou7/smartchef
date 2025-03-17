@@ -5,25 +5,27 @@ import Tesseract from 'tesseract.js'; //OCR API
 import { useNavigate } from "react-router-dom";
 import { FaHamburger } from "react-icons/fa";
 
+
 const ScanReceipts = () => {
   const videoRef = useRef(null); 
   const [imageSrc, setImageSrc] = useState(null); 
   const [ingredients, setIngredients] = useState([]); 
-  const canvasRef = useRef(null); // reference to the canvas element
-    const navigate = useNavigate();  
+  const [filteredIngredients, setFilteredIngredients] = useState([]); 
+   const [extractedText, setExtractedText] = useState("");
+  const canvasRef = useRef(null); 
+  const navigate = useNavigate();  
 
   useEffect(() => {
-    // function to start the camera
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
-            facingMode: 'environment', // ensure it's the back camera
+            facingMode: 'environment',
           },
         });
 
         if (videoRef.current) {
-          videoRef.current.srcObject = stream; // sets the video stream to the video element
+          videoRef.current.srcObject = stream;
         }
       } catch (err) {
         console.error("Error accessing the camera", err);
@@ -33,63 +35,82 @@ const ScanReceipts = () => {
     startCamera(); 
 
     return () => {
-   
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject;
         const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop()); // stosp each track to release the camera
+        tracks.forEach((track) => track.stop());
       }
     };
   }, []);
 
-  // function to capture the image from the video feed
   const captureImage = () => {
     if (videoRef.current && canvasRef.current) {
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
       
-     
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
       
-    
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       
-     
       const imageURL = canvas.toDataURL('image/png');
       setImageSrc(imageURL);
       extractIngredients(imageURL); 
     }
   };
 
-  // function to send the captured image to the Tesseract API to extract ingredients
   const extractIngredients = async (imageDataUrl) => {
     try {
-      
       Tesseract.recognize(
         imageDataUrl,
-        'eng', 
+        "eng",
         {
-          logger: (m) => console.log(m), // Log progress for testing 
+          logger: (m) => console.log(m),
         }
       ).then(({ data: { text } }) => {
         console.log("Extracted Text:", text);
+
+        setExtractedText(text);
+
         const ingredientList = parseIngredients(text);
-        setIngredients(ingredientList); 
+        setIngredients(ingredientList);
+        filterIngredients(ingredientList);
       });
     } catch (error) {
       console.error("Error extracting ingredients", error);
     }
   };
 
-  // function to parse the recognized text into ingredients
-  //TODO: add functionality to determine only valid ingredients
   const parseIngredients = (text) => {
    
-    const lines = text.split('\n');
-    const ingredients = lines.filter(line => line.trim().length > 0);
-    return ingredients;
+    let words = text.toLowerCase().split(/\s+/);
+  
+   
+    words = words.map(word => word.replace(/[^a-z]/g, "").trim()).filter(word => word.length > 0);
+  
+    console.log(words);
+    return words;
   };
+  
+  
+   // Function to filter ingredients
+   const filterIngredients = async (ingredientsList) => {
+    try {
+      const response = await fetch("/smartchef/ingredients.json");
+      const validIngredients = await response.json();
+      const ingredientSet = new Set(validIngredients.map(ingredient => ingredient.toLowerCase()));
+      const filteredIngredients = ingredientsList.filter(word => ingredientSet.has(word));
+
+      setFilteredIngredients(filteredIngredients);
+
+      console.log("Filtered Words:", filteredIngredients);
+    } catch (error) {
+      console.error("Error loading ingredients:", error);
+      setFilteredIngredients([]); 
+    }
+  };
+
+  
 
   const handleButtonClick = () => {
     navigate("/my-ingredients"); 
@@ -98,7 +119,6 @@ const ScanReceipts = () => {
   return (
     <div className="scan-container">
       <div className="video-feed-box">
-        {/* shows the image if captured, otherwise show video */}
         {imageSrc ? (
           <img src={imageSrc} alt="Captured" className="captured-image" />
         ) : (
@@ -116,22 +136,31 @@ const ScanReceipts = () => {
         <Camera size={35} />
       </button>
 
-      {/* hidden canvas used to capture the image */}
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-      {/* displays extracted ingredients for now*/}
       {ingredients.length > 0 && (
-        <div className="ingredients-list">
-          <h3>Ingredients Extracted:</h3>
-          <ul>
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
+        <div className="extracted-text-list">
+          <h3>Extracted Text:</h3>
+          <pre>{extractedText}</pre> 
         </div>
       )}
 
-      {/* Button to navigate to My Ingredients page */}
+{filteredIngredients.length > 0 ? (
+  <div className="filtered-ingredients-list">
+    <h3>Filtered Ingredients:</h3>
+    <ul>
+      {filteredIngredients.map((ingredient, index) => (
+        <li key={index}>{ingredient}</li>
+      ))}
+    </ul>
+  </div>
+) : (
+  <div className="no-ingredients-message">
+    <h3>No ingredient extracted</h3>
+  </div>
+)}
+
+
       <div className="ingredients-container">
         <h3>View My Ingredients</h3>
         <div className="button-container">
@@ -140,11 +169,7 @@ const ScanReceipts = () => {
           </button>
         </div>
       </div>
-
-      
     </div>
-    
-    
   );
 };
 
