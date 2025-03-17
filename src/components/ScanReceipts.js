@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import './ScanReceipts.css';
 import { Camera } from "lucide-react";
 import Tesseract from 'tesseract.js'; //OCR API 
+import { useNavigate } from "react-router-dom";
+import { FaHamburger } from "react-icons/fa";
 
 const ScanReceipts = () => {
   const videoRef = useRef(null); 
   const [imageSrc, setImageSrc] = useState(null); 
   const [ingredients, setIngredients] = useState([]); 
   const canvasRef = useRef(null); // reference to the canvas element
+    const navigate = useNavigate();  
 
   useEffect(() => {
     // function to start the camera
@@ -88,6 +91,10 @@ const ScanReceipts = () => {
     return ingredients;
   };
 
+  const handleButtonClick = () => {
+    navigate("/my-ingredients"); 
+  };
+
   return (
     <div className="scan-container">
       <div className="video-feed-box">
@@ -123,7 +130,21 @@ const ScanReceipts = () => {
           </ul>
         </div>
       )}
+
+      {/* Button to navigate to My Ingredients page */}
+      <div className="ingredients-container">
+        <h3>View My Ingredients</h3>
+        <div className="button-container">
+          <button className="ingredients-btn" onClick={handleButtonClick}>
+            <FaHamburger className="burger-icon" /> View My Ingredients
+          </button>
+        </div>
+      </div>
+
+      
     </div>
+    
+    
   );
 };
 

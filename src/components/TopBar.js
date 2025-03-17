@@ -9,7 +9,8 @@ const pageTitles = {
   "/saved-recipes": "Saved Recipes",
   "/my-profile": "My Profile",
   "/recipe/": "SmartChef",
-   "/list/": "SmartChef"
+  "/list/": "SmartChef",
+  "/my-ingredients": "My Saved Ingredients"
 };
 
 const TopBar = ({ isEditable, handleEditClick, listName }) => {
@@ -22,6 +23,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const isRecipePage = location.pathname.startsWith("/recipe");
   const isShoppingListsPage = location.pathname === "/shopping-lists";
   const isListPage = location.pathname.startsWith("/list/");
+  const isMyIngredientsPage = location.pathname === "/my-ingredients";
 
 
   const handleBackClick = () => {
@@ -30,7 +32,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
 
   return (
     <div style={styles.topBar}>
-      {(isRecipePage|| isListPage) && (
+      {(isRecipePage|| isListPage || isMyIngredientsPage) && (
         <button onClick={handleBackClick} style={styles.backButton}>
           <FaArrowLeft style={styles.backIcon} />
         </button>
@@ -52,7 +54,13 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
           <FaEdit style={styles.editIcon} />
           {isEditable ? "Done" : "Edit"}
         </button>
-        
+      )}
+
+       {isMyIngredientsPage && (
+        <button onClick={handleEditClick} style={styles.editButton}>
+          <FaEdit style={styles.editIcon} />
+          {isEditable ? "Done" : "Edit"}
+        </button>
       )}
     </div>
   );
