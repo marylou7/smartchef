@@ -6,13 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { FaHamburger } from "react-icons/fa";
 
 
-import ingredientData from './ingredients.json';
-
 const ScanReceipts = () => {
   const videoRef = useRef(null); 
   const [imageSrc, setImageSrc] = useState(null); 
   const [ingredients, setIngredients] = useState([]); 
   const [filteredIngredients, setFilteredIngredients] = useState([]); 
+   const [extractedText, setExtractedText] = useState("");
   const canvasRef = useRef(null); 
   const navigate = useNavigate();  
 
@@ -64,15 +63,18 @@ const ScanReceipts = () => {
     try {
       Tesseract.recognize(
         imageDataUrl,
-        'eng',
+        "eng",
         {
           logger: (m) => console.log(m),
         }
       ).then(({ data: { text } }) => {
         console.log("Extracted Text:", text);
+
+        setExtractedText(text);
+
         const ingredientList = parseIngredients(text);
         setIngredients(ingredientList);
-        filterIngredients(ingredientList); 
+        filterIngredients(ingredientList);
       });
     } catch (error) {
       console.error("Error extracting ingredients", error);
@@ -90,26 +92,23 @@ const ScanReceipts = () => {
     return words;
   };
   
-  // Function to filter ingredients
-const filterIngredients = async (ingredientsList) => {
-  try {
-
-    const response = await fetch("/smartchef/ingredients.json");
-    const validIngredients = await response.json();
-
-
-    const ingredientSet = new Set(validIngredients.map(ingredient => ingredient.toLowerCase()));
-
   
-    const filteredIngredients = ingredientsList.filter(word => ingredientSet.has(word));
+   // Function to filter ingredients
+   const filterIngredients = async (ingredientsList) => {
+    try {
+      const response = await fetch("/smartchef/ingredients.json");
+      const validIngredients = await response.json();
+      const ingredientSet = new Set(validIngredients.map(ingredient => ingredient.toLowerCase()));
+      const filteredIngredients = ingredientsList.filter(word => ingredientSet.has(word));
 
-    console.log(filterIngredients)
-    return filteredIngredients;
-  } catch (error) {
-    console.error("Error loading ingredients:", error);
-    return [];
-  }
-};
+      setFilteredIngredients(filteredIngredients);
+
+      console.log("Filtered Words:", filteredIngredients);
+    } catch (error) {
+      console.error("Error loading ingredients:", error);
+      setFilteredIngredients([]); 
+    }
+  };
 
   
 
@@ -142,11 +141,7 @@ const filterIngredients = async (ingredientsList) => {
       {ingredients.length > 0 && (
         <div className="extracted-text-list">
           <h3>Extracted Text:</h3>
-          <ul>
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
+          <pre>{extractedText}</pre> 
         </div>
       )}
 
