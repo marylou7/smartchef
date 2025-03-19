@@ -11,6 +11,7 @@ import HomePage from './components/HomePage';
 import RecipePage from './components/RecipePage';
 import ListPage from './components/ListPage';
 import MyIngredientsPage from './components/MyIngredientsPage';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 function App() {
   const [isEditable, setIsEditable] = useState(false);
@@ -33,6 +34,7 @@ function App() {
           <Route path="/recipe/:id" element={<RecipePage />} /> 
           <Route path="/list/:id" element={<ListPage />} /> 
           <Route path="/my-ingredients" element={<MyIngredientsPage />} /> 
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
     </div>
