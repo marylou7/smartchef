@@ -7,10 +7,12 @@ const pageTitles = {
   "/scan-recipes": "Scan Recipes",
   "/shopping-lists": "Shopping Lists",
   "/saved-recipes": "Saved Recipes",
-  "/my-profile": "My Profile",
+  "/my-profile": "My Account",
   "/recipe/": "SmartChef",
   "/list/": "SmartChef",
-  "/my-ingredients": "My Saved Ingredients"
+  "/my-ingredients": "My Saved Ingredients",
+  "/privacy-policy": "Privacy Policy",
+  "/terms-and-conditions": "Terms & Conditions"
 };
 
 const TopBar = ({ isEditable, handleEditClick, listName }) => {
@@ -24,6 +26,8 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const isShoppingListsPage = location.pathname === "/shopping-lists";
   const isListPage = location.pathname.startsWith("/list/");
   const isMyIngredientsPage = location.pathname === "/my-ingredients";
+  const isPrivacyPolicyPage = location.pathname === "/privacy-policy";
+  const isTermsAndConditionsPage = location.pathname === "/terms-and-conditions";
 
 
   const handleBackClick = () => {
@@ -32,7 +36,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
 
   return (
     <div style={styles.topBar}>
-      {(isRecipePage|| isListPage || isMyIngredientsPage) && (
+      {(isRecipePage|| isListPage || isMyIngredientsPage || isPrivacyPolicyPage || isTermsAndConditionsPage) && (
         <button onClick={handleBackClick} style={styles.backButton}>
           <FaArrowLeft style={styles.backIcon} />
         </button>

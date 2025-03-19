@@ -29,7 +29,7 @@
   }
   
   .tag {
-    background: #4CAF50;
+    background: #10b981;
     color: white;
     padding: 6px 12px;
     border-radius: 12px;
@@ -197,5 +197,25 @@
   
   body.dark .remove-btn:hover {
     color: #ff6666;
+  }
+
+
+  .privacy-policy {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .privacy-policy p {
+    font-size: 14px;
+    color: #000000;
+  }
+  
+  .privacy-policy a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  body.dark .privacy-policy p{
+    color: #ffffff;  
   }
   

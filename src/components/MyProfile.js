@@ -76,6 +76,15 @@ const MyProfile = () => {
     navigate("/my-ingredients"); 
   };
 
+  const handlePrivacyPolicyClick = () => {
+    navigate("/privacy-policy"); 
+  };
+
+  const handleTermsClick = () => {
+    navigate("/terms-and-conditions"); 
+  };
+  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -91,20 +100,8 @@ const MyProfile = () => {
        </button>
       </div>
 
-       <hr className="section-divider" />
-      <h3>Settings</h3>
 
-      <div className="toggle-container">
-        <label className="toggle-label">Dark Mode</label>
-        <ToggleSlider
-          onToggle={handleToggleChange}
-          active={active}
-          thumbColor="#fff"
-          trackColor="#4CAF50"
-          width={60}
-          height={30}
-        />
-      </div>
+      
 
    
        <hr className="section-divider" />
@@ -146,10 +143,45 @@ const MyProfile = () => {
         </div>
       </div>
 
-     
+      <hr className="section-divider" />
 
-    
-        
+      <h3>Settings</h3>
+
+      <div className="toggle-container">
+        <label className="toggle-label">Dark Mode</label>
+        <ToggleSlider
+          onToggle={handleToggleChange}
+          active={active}
+          thumbColor="#fff"
+          trackColor="#4CAF50"
+          width={60}
+          height={30}
+        />
+      </div>
+
+
+      <hr className="section-divider" />
+
+      {/* Privacy Policy Link */}
+      <div className="privacy-policy">
+  <p>
+    By using this service, you agree to our{" "}
+    <span 
+      onClick={handlePrivacyPolicyClick} 
+      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+    >
+      Privacy Policy
+    </span>{" "}
+    and{" "}
+    <span 
+      onClick={handleTermsClick} 
+      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+    >
+      Terms & Conditions
+    </span>.
+  </p>
+</div>
+
       </div>
     </div>
   );
