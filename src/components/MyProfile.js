@@ -77,8 +77,13 @@ const MyProfile = () => {
   };
 
   const handlePrivacyPolicyClick = () => {
-    navigate("/privacy-policy"); // Navigates to the Privacy Policy page
+    navigate("/privacy-policy"); 
   };
+
+  const handleTermsClick = () => {
+    navigate("/terms-and-conditions"); 
+  };
+  
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -159,16 +164,24 @@ const MyProfile = () => {
 
       {/* Privacy Policy Link */}
       <div className="privacy-policy">
-      <p>
-        By using this service, you agree to our{" "}
-        <span 
-          onClick={handlePrivacyPolicyClick} 
-          style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
-        >
-          Privacy Policy
-        </span>.
-      </p>
-    </div>
+  <p>
+    By using this service, you agree to our{" "}
+    <span 
+      onClick={handlePrivacyPolicyClick} 
+      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+    >
+      Privacy Policy
+    </span>{" "}
+    and{" "}
+    <span 
+      onClick={handleTermsClick} 
+      style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+    >
+      Terms & Conditions
+    </span>.
+  </p>
+</div>
+
       </div>
     </div>
   );

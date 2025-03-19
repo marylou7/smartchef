@@ -11,7 +11,8 @@ const pageTitles = {
   "/recipe/": "SmartChef",
   "/list/": "SmartChef",
   "/my-ingredients": "My Saved Ingredients",
-  "/privacy-policy": "Privacy Policy"
+  "/privacy-policy": "Privacy Policy",
+  "/terms-and-conditions": "Terms & Conditions"
 };
 
 const TopBar = ({ isEditable, handleEditClick, listName }) => {
@@ -26,6 +27,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
   const isListPage = location.pathname.startsWith("/list/");
   const isMyIngredientsPage = location.pathname === "/my-ingredients";
   const isPrivacyPolicyPage = location.pathname === "/privacy-policy";
+  const isTermsAndConditionsPage = location.pathname === "/terms-and-conditions";
 
 
   const handleBackClick = () => {
@@ -34,7 +36,7 @@ const TopBar = ({ isEditable, handleEditClick, listName }) => {
 
   return (
     <div style={styles.topBar}>
-      {(isRecipePage|| isListPage || isMyIngredientsPage || isPrivacyPolicyPage) && (
+      {(isRecipePage|| isListPage || isMyIngredientsPage || isPrivacyPolicyPage || isTermsAndConditionsPage) && (
         <button onClick={handleBackClick} style={styles.backButton}>
           <FaArrowLeft style={styles.backIcon} />
         </button>

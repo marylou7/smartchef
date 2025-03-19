@@ -12,6 +12,7 @@ import RecipePage from './components/RecipePage';
 import ListPage from './components/ListPage';
 import MyIngredientsPage from './components/MyIngredientsPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsAndConditions from './components/TermsAndConditions';
 
 function App() {
   const [isEditable, setIsEditable] = useState(false);
@@ -35,6 +36,7 @@ function App() {
           <Route path="/list/:id" element={<ListPage />} /> 
           <Route path="/my-ingredients" element={<MyIngredientsPage />} /> 
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         </Routes>
       </div>
     </div>
