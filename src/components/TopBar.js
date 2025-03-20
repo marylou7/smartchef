@@ -4,7 +4,7 @@ import { FaArrowLeft, FaEdit } from "react-icons/fa";
 
 const pageTitles = {
   "/": "SmartChef",
-  "/scan-recipes": "Scan Recipes",
+  "/scan-recipes": "Scan Receipts",
   "/shopping-lists": "Shopping Lists",
   "/saved-recipes": "Saved Recipes",
   "/my-profile": "My Account",
