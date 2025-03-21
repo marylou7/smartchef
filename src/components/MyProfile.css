@@ -220,4 +220,112 @@
   body.dark .privacy-policy p{
     color: #ffffff;  
   }
-  
+
+/* Delete My Data Section */
+.delete-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.delete-btn {
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+
+}
+
+
+/* Delete My Data Section */
+.delete-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.delete-btn {
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif; 
+}
+
+.delete-btn:hover {
+  background-color: #ff0000;
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.confirmation-modal p {
+  background-color: white;
+  padding: 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+body.dark .confirmation-modal p {
+
+  background-color: rgba(44, 43, 43, 0.5);
+}
+
+.confirmation-modal button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-btn {
+  background-color: #ff4c4c;
+  color: white;
+  font-family: 'Montserrat', sans-serif; 
+}
+
+.cancel-btn {
+  background-color: #aaa;
+  color: white;
+  font-family: 'Montserrat', sans-serif; 
+}
+
+.confirmation-modal > p,
+.confirmation-modal button {
+  display: inline-block;
+  text-align: center;
+}
+
+.confirmation-modal .confirmation-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirmation-modal button:focus {
+  outline: none;
+}
