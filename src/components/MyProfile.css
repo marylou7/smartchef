@@ -64,6 +64,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Montserrat', sans-serif; 
   }
   
 
@@ -156,6 +157,7 @@
     align-items: center;
     gap: 8px;
     transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Montserrat', sans-serif; 
   }
   
   
