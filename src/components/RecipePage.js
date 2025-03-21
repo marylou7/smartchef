@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaBookmark, FaShoppingCart } from "react-icons/fa";
 import { BookmarkBorder } from "@mui/icons-material";
+import { ClipLoader } from "react-spinners";
 import './RecipePage.css';
 
 const RecipePage = () => {
@@ -17,6 +18,8 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
+        //await new Promise(resolve => setTimeout(resolve, 10000)); // 10 second delay to test loading animation
+      
       try {
         const response = await fetch(
           `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
@@ -96,12 +99,22 @@ const RecipePage = () => {
 
 
   if (loading) {
-    return <div>Loading recipe...</div>;
+    return (
+      <div className="loading-spinner">
+        <ClipLoader size={50} color={"#36d7b7"} loading={loading} />
+        <p>Loading recipe...</p>
+      </div>
+    );
   }
 
   if (!recipe) {
-    return <div>Recipe not found</div>;
+    return (
+      <div className="recipe-not-found">
+        <p>Recipe not found. Please check your internet connection and try again.</p>
+      </div>
+    );
   }
+  
 
   const ingredients = [];
   for (let i = 1; i <= 20; i++) {
