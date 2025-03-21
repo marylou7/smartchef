@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/smartchef/static/css/main.82c2579b.css",
-    "main.js": "/smartchef/static/js/main.a602b91e.js",
+    "main.css": "/smartchef/static/css/main.6bff3aa2.css",
+    "main.js": "/smartchef/static/js/main.d41cb151.js",
     "static/js/488.89230b7c.chunk.js": "/smartchef/static/js/488.89230b7c.chunk.js",
     "service-worker.js": "/smartchef/service-worker.js",
     "index.html": "/smartchef/index.html",
-    "main.82c2579b.css.map": "/smartchef/static/css/main.82c2579b.css.map",
-    "main.a602b91e.js.map": "/smartchef/static/js/main.a602b91e.js.map",
+    "main.6bff3aa2.css.map": "/smartchef/static/css/main.6bff3aa2.css.map",
+    "main.d41cb151.js.map": "/smartchef/static/js/main.d41cb151.js.map",
     "488.89230b7c.chunk.js.map": "/smartchef/static/js/488.89230b7c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.82c2579b.css",
-    "static/js/main.a602b91e.js"
+    "static/css/main.6bff3aa2.css",
+    "static/js/main.d41cb151.js"
   ]
 }
