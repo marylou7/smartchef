@@ -5,6 +5,18 @@ import { useNavigate } from "react-router-dom";
 const ShoppingLists = ({ isEditable }) => {
   const navigate = useNavigate();  
 
+  const colorSet = [
+    "#C6B9A6",  
+    "#A8D0C6",  
+    "#F1A7B4",  
+    "#C5D0A9",  
+    "#B2A8D3", 
+    "#D4C1A3",  
+    "#B5B8B1",  
+    "#C1D3D8"   
+  ];
+  
+
   // load shopping lists from localStorage or use an empty array
   const loadShoppingLists = () => {
     const savedLists = localStorage.getItem("shoppingLists");
@@ -61,33 +73,40 @@ const ShoppingLists = ({ isEditable }) => {
         </button>
       )}
       <div className="shopping-list-cards">
-        {shoppingLists.map((list) => (
-          <div
-            key={list.id}
-            className="shopping-list-card"
-            onClick={() => handleCardClick(list.id)} 
-          >
-            <div className="shopping-list-name">
-              {isEditable ? (
-                <input
-                  type="text"
-                  value={list.name}
-                  onChange={(e) => handleEditName(list.id, e.target.value)}
-                  className="edit-input"
-                />
-              ) : (
-                <h3>{list.name}</h3>
+        {shoppingLists.map((list, index) => {
+          // Assign a color based on the index of the list
+          const color = colorSet[index % colorSet.length];
+
+          return (
+            <div
+              key={list.id}
+              className="shopping-list-card"
+              onClick={() => handleCardClick(list.id)}
+              style={{ backgroundColor: color }} 
+            >
+              <div className="shopping-list-name">
+                {isEditable ? (
+                  <input
+                    type="text"
+                    value={list.name}
+                    onChange={(e) => handleEditName(list.id, e.target.value)}
+                    className="edit-input"
+                    style={{ color: 'white', fontWeight: 'bold' }} 
+                  />
+                ) : (
+                  <h3 style={{ color: 'black', fontWeight: 'bold' }}>{list.name}</h3>
+                )}
+              </div>
+
+              {/* Show delete button only when editable */}
+              {isEditable && (
+                <button onClick={() => handleDelete(list.id)} className="delete-btn">
+                  Delete
+                </button>
               )}
             </div>
-
-            {/* Show delete button only when editable */}
-            {isEditable && (
-              <button onClick={() => handleDelete(list.id)} className="delete-btn">
-                Delete
-              </button>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
