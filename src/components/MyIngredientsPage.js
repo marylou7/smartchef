@@ -20,8 +20,7 @@ const MyIngredientsPage = () => {
   const handleAddNewItem = () => {
     const newItem = {
       id: items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1,
-      name: "New Item", 
-      checked: false,
+      name: "New Item"
     };
     setItems([...items, newItem]);
   };
