@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import './HomePage.css'; 
+import './HomePage.css';
 
 const filtersList = ["Filter 1", "Filter 2", "Filter 3", "Filter 4", "Filter 5"];
 
@@ -49,7 +49,7 @@ const HomePage = () => {
     } else {
       fetchRandomMeals(5); // fetch 5 random meals if no saved meals for now
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (search.trim() === "") {
@@ -76,6 +76,7 @@ const HomePage = () => {
       fetchSearchedRecipes();
     }
   }, [search]);
+
 
   // filter dropdown toggle
   const toggleFilters = () => {
@@ -139,8 +140,8 @@ const HomePage = () => {
       {showFilters && (
         <div className="filter-dropdown">
           {filtersList.map((filter) => (
-            <button 
-              key={filter} 
+            <button
+              key={filter}
               className={`filter-option ${selectedFilters.includes(filter) ? "selected" : ""}`}
               onClick={() => handleFilterClick(filter)}
             >
@@ -176,6 +177,15 @@ const HomePage = () => {
               <Link to={`/recipe/${recipe.idMeal}`}>
                 <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
               </Link>
+              {recipe.strTags && (
+                <div className="recipe-tags">
+                  {recipe.strTags.split(',').map((tag, index) => (
+                    <span key={index} className="tag">
+                      {tag.trim()}
+                    </span>
+                  ))}
+                </div>
+              )}
               <h3 className="recipe-name">{recipe.strMeal}</h3>
             </div>
           ))}
