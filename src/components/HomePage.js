@@ -4,7 +4,7 @@ import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import './HomePage.css';
 
-const filtersList = ["Filter 1", "Filter 2", "Filter 3", "Filter 4", "Filter 5"];
+const filtersList = ["MainMeal", "Dessert", "Soup", "Breakfast", "Vegetarian"];
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -77,6 +77,12 @@ const HomePage = () => {
     }
   }, [search]);
 
+  // Filter the recipes based on selected filters
+  const filteredRecipes = recipes.filter((recipe) => {
+    return selectedFilters.every((filter) => {
+      return recipe.strTags?.split(",").includes(filter);
+    });
+  });
 
   // filter dropdown toggle
   const toggleFilters = () => {
@@ -161,7 +167,7 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* display loading, error, or recipes */}
+      {/* display loading, error, or filtered recipes */}
       {loading && (
         <div className="mt-4 text-center text-gray-500">Loading recipes...</div>
       )}
@@ -170,12 +176,16 @@ const HomePage = () => {
         <div className="mt-4 text-center text-red-500">{error}</div>
       )}
 
-      {recipes.length > 0 ? (
+      {filteredRecipes.length > 0 ? (
         <div className="recipes-container">
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <div key={recipe.idMeal} className="recipe-card">
               <Link to={`/recipe/${recipe.idMeal}`}>
-                <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
+                <img
+                  src={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                  className="recipe-image"
+                />
               </Link>
               {recipe.strTags && (
                 <div className="recipe-tags">
@@ -191,9 +201,9 @@ const HomePage = () => {
           ))}
         </div>
       ) : (
-        search && !loading && (
-          <div className="mt-4 text-center text-gray-500">
-            No recipes found for "{search}"
+        !loading && (
+          <div className="no-recipes-found">
+            No recipes found with the selected filters.
           </div>
         )
       )}
@@ -201,4 +211,5 @@ const HomePage = () => {
   );
 };
 
+     
 export default HomePage;
