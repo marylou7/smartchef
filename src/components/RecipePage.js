@@ -9,10 +9,10 @@ const RecipePage = () => {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
-  const [savedIngredients, setSavedIngredients] = useState([]); 
+  const [savedIngredients, setSavedIngredients] = useState([]);
   const [savedIngredientCount, setSavedIngredientCount] = useState(0);
-  const [savedIngredientNames, setSavedIngredientNames] = useState([]); 
-  
+  const [savedIngredientNames, setSavedIngredientNames] = useState([]);
+
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -42,7 +42,7 @@ const RecipePage = () => {
   useEffect(() => {
 
     const savedIngredientsList = JSON.parse(localStorage.getItem("mySavedIngredients")) || [];
-    setSavedIngredients(savedIngredientsList); 
+    setSavedIngredients(savedIngredientsList);
   }, []);
 
   useEffect(() => {
@@ -53,28 +53,28 @@ const RecipePage = () => {
 
   useEffect(() => {
 
-  if (recipe && savedIngredients.length > 0) {
-    const ingredients = [];
-    for (let i = 1; i <= 20; i++) {
-      const ingredient = recipe[`strIngredient${i}`];
-      if (ingredient && ingredient !== "") {
-        ingredients.push(ingredient);
+    if (recipe && savedIngredients.length > 0) {
+      const ingredients = [];
+      for (let i = 1; i <= 20; i++) {
+        const ingredient = recipe[`strIngredient${i}`];
+        if (ingredient && ingredient !== "") {
+          ingredients.push(ingredient);
+        }
       }
+
+      // find matching ingredients from savedIngredients where the name is a substring of the ingredient
+      const matchingIngredients = ingredients.filter(ingredient =>
+        savedIngredients.some(saved => ingredient.toLowerCase().includes(saved.name.toLowerCase()))
+      );
+
+      // Debug statements
+      console.log("All Ingredients:", ingredients);
+      console.log("Matching Ingredients:", matchingIngredients);
+
+      setSavedIngredientNames(matchingIngredients);
+      setSavedIngredientCount(matchingIngredients.length);
     }
-
-    // find matching ingredients from savedIngredients where the name is a substring of the ingredient
-    const matchingIngredients = ingredients.filter(ingredient =>
-      savedIngredients.some(saved => ingredient.toLowerCase().includes(saved.name.toLowerCase()))
-    );
-
-    // Debug statements
-    console.log("All Ingredients:", ingredients);
-    console.log("Matching Ingredients:", matchingIngredients);
-
-    setSavedIngredientNames(matchingIngredients);
-    setSavedIngredientCount(matchingIngredients.length);
-  }
-}, [recipe, savedIngredients]);
+  }, [recipe, savedIngredients]);
 
 
 
@@ -91,9 +91,9 @@ const RecipePage = () => {
 
   const cleanIngredient = (ingredient) => {
     const cleaned = ingredient.replace(/(\d+|\s*(cup|tsp|tbsp|ml|l|g|kg|oz|lb|cl|fl|pt)\s*)/gi, '').trim();
-    return cleaned.toLowerCase();  
+    return cleaned.toLowerCase();
   };
-  
+
 
   if (loading) {
     return <div>Loading recipe...</div>;
@@ -121,7 +121,7 @@ const RecipePage = () => {
         <div className="recipe-img">
           <img src={recipe.strMealThumb} alt={recipe.strMeal} />
           <div className="save-icon" onClick={toggleSaveRecipe}>
-            {isSaved ?   <FaBookmark style={{ color: 'rgb(255, 252, 162)' }} /> :   <BookmarkBorder style={{ fontSize: '40px' }} />}
+            {isSaved ? <FaBookmark style={{ color: 'rgb(255, 252, 162)' }} /> : <BookmarkBorder style={{ fontSize: '40px' }} />}
           </div>
           <div className="cart-icon">
             <FaShoppingCart onClick={() => console.log("Missing Ingredients added to List!")} />
@@ -134,19 +134,19 @@ const RecipePage = () => {
         <h2 className="recipe-title">{recipe.strMeal}</h2>
         <h4>Ingredients:</h4>
         <div>
-        {ingredients.map((ingredient, index) => (
-          <div className="ingredient-item" key={index}>
-          <input
-             type="checkbox"
-             className="colored-checkbox"  
-             defaultChecked={savedIngredients.some(saved => {
-            const savedName = saved.name ? saved.name : ""; // handle missing names
-            return ingredient.toLowerCase().includes(savedName.toLowerCase()); // check if saved ingredient is part of the ingredient 
-      })}
-    />
-    <span>{ingredient}</span>
-  </div>
-))}
+          {ingredients.map((ingredient, index) => (
+            <div className="ingredient-item" key={index}>
+              <input
+                type="checkbox"
+                className="colored-checkbox"
+                defaultChecked={savedIngredients.some(saved => {
+                  const savedName = saved.name ? saved.name : ""; // handle missing names
+                  return ingredient.toLowerCase().includes(savedName.toLowerCase()); // check if saved ingredient is part of the ingredient 
+                })}
+              />
+              <span>{ingredient}</span>
+            </div>
+          ))}
 
         </div>
 

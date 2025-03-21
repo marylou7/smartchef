@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
-import './HomePage.css'; 
+import './HomePage.css';
 
-const filtersList = ["Filter 1", "Filter 2", "Filter 3", "Filter 4", "Filter 5"];
+const filtersList = ["MainMeal", "Dessert", "Soup", "Breakfast", "Vegetarian"];
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -49,7 +49,7 @@ const HomePage = () => {
     } else {
       fetchRandomMeals(5); // fetch 5 random meals if no saved meals for now
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (search.trim() === "") {
@@ -76,6 +76,13 @@ const HomePage = () => {
       fetchSearchedRecipes();
     }
   }, [search]);
+
+  // Filter the recipes based on selected filters
+  const filteredRecipes = recipes.filter((recipe) => {
+    return selectedFilters.every((filter) => {
+      return recipe.strTags?.split(",").includes(filter);
+    });
+  });
 
   // filter dropdown toggle
   const toggleFilters = () => {
@@ -139,8 +146,8 @@ const HomePage = () => {
       {showFilters && (
         <div className="filter-dropdown">
           {filtersList.map((filter) => (
-            <button 
-              key={filter} 
+            <button
+              key={filter}
               className={`filter-option ${selectedFilters.includes(filter) ? "selected" : ""}`}
               onClick={() => handleFilterClick(filter)}
             >
@@ -160,7 +167,7 @@ const HomePage = () => {
         ))}
       </div>
 
-      {/* display loading, error, or recipes */}
+      {/* display loading, error, or filtered recipes */}
       {loading && (
         <div className="mt-4 text-center text-gray-500">Loading recipes...</div>
       )}
@@ -169,21 +176,34 @@ const HomePage = () => {
         <div className="mt-4 text-center text-red-500">{error}</div>
       )}
 
-      {recipes.length > 0 ? (
+      {filteredRecipes.length > 0 ? (
         <div className="recipes-container">
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <div key={recipe.idMeal} className="recipe-card">
               <Link to={`/recipe/${recipe.idMeal}`}>
-                <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-image" />
+                <img
+                  src={recipe.strMealThumb}
+                  alt={recipe.strMeal}
+                  className="recipe-image"
+                />
               </Link>
+              {recipe.strTags && (
+                <div className="recipe-tags">
+                  {recipe.strTags.split(',').map((tag, index) => (
+                    <span key={index} className="tag">
+                      {tag.trim()}
+                    </span>
+                  ))}
+                </div>
+              )}
               <h3 className="recipe-name">{recipe.strMeal}</h3>
             </div>
           ))}
         </div>
       ) : (
-        search && !loading && (
-          <div className="mt-4 text-center text-gray-500">
-            No recipes found for "{search}"
+        !loading && (
+          <div className="no-recipes-found">
+            No recipes found with the selected filters.
           </div>
         )
       )}
@@ -191,4 +211,5 @@ const HomePage = () => {
   );
 };
 
+     
 export default HomePage;
