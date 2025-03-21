@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import "./ScanReceipts.css";
 import { Camera } from "lucide-react";
 import { FaUpload, FaHamburger } from "react-icons/fa";
-import Tesseract from "tesseract.js"; 
+import Tesseract from "tesseract.js";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import { ClipLoader } from "react-spinners"; 
+import { ClipLoader } from "react-spinners";
 
-Modal.setAppElement("#root"); 
+Modal.setAppElement("#root");
 
 const ScanReceipts = () => {
   const videoRef = useRef(null);
@@ -18,7 +18,9 @@ const ScanReceipts = () => {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isIngredientsDetected, setIsIngredientsDetected] = useState(false);
+
 
   useEffect(() => {
     const startCamera = async () => {
@@ -61,7 +63,7 @@ const ScanReceipts = () => {
   };
 
   const extractIngredients = async (imageDataUrl) => {
-    setIsLoading(true); // show loading when processing starts
+    setIsLoading(true); 
 
     try {
       const { data: { text } } = await Tesseract.recognize(imageDataUrl, "eng", {
@@ -77,7 +79,7 @@ const ScanReceipts = () => {
     } catch (error) {
       console.error("Error extracting ingredients", error);
     } finally {
-      setIsLoading(false); // hide loading when processing is done
+      setIsLoading(false); 
     }
   };
 
@@ -100,7 +102,7 @@ const ScanReceipts = () => {
       setFilteredIngredients(filtered);
       console.log("Filtered Words:", filtered);
 
-      setModalIsOpen(true); 
+      setModalIsOpen(true);
     } catch (error) {
       console.error("Error loading ingredients:", error);
       setFilteredIngredients([]);
@@ -108,7 +110,7 @@ const ScanReceipts = () => {
   };
 
   const handleButtonClick = () => {
-    navigate("/my-ingredients"); 
+    navigate("/my-ingredients");
   };
 
   const handleFileUpload = (event) => {
@@ -123,6 +125,52 @@ const ScanReceipts = () => {
     }
   };
 
+  const saveToLocalStorage = () => {
+    let savedIngredients = JSON.parse(localStorage.getItem("mySavedIngredients")) || [];
+
+    const existingNames = new Set(savedIngredients.map((ing) => ing.name.toLowerCase()));
+
+    filteredIngredients.forEach((name) => {
+      const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+
+
+      if (!existingNames.has(formattedName.toLowerCase())) {
+        const newId = savedIngredients.length > 0
+          ? Math.max(...savedIngredients.map((ing) => ing.id)) + 1
+          : 1;
+
+        savedIngredients.push({ id: newId, name: formattedName });
+        existingNames.add(formattedName.toLowerCase());
+      }
+    });
+
+    localStorage.setItem("mySavedIngredients", JSON.stringify(savedIngredients));
+    console.log("Updated ingredients:", savedIngredients);
+  };
+
+
+  // Function to handle close action
+  const handleDiscard = async () => {
+    setImageSrc(null);
+    setModalIsOpen(false);
+
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Error accessing the camera", err);
+    }
+  };
+
+
+
+
+
   return (
     <div className="scan-container">
       <div className="video-feed-box">
@@ -133,7 +181,7 @@ const ScanReceipts = () => {
         )}
       </div>
 
-      {isLoading && ( // show loading spinner if OCR is running
+      {isLoading && ( 
         <div className="loading-overlay">
           <ClipLoader size={50} color="#36d7b7" />
           <p>Scanning Receipt...</p>
@@ -160,7 +208,8 @@ const ScanReceipts = () => {
 
       <div className="ingredients-container">
         <div className="button-container">
-          <button className="ingredients-btn" onClick={handleButtonClick}>
+          <button className="ingredients-btn" onClick={handleButtonClick}
+            style={{ fontFamily: 'Montserrat, sans-serif' }}>
             <FaHamburger className="burger-icon" /> View My Ingredients
           </button>
         </div>
@@ -174,25 +223,74 @@ const ScanReceipts = () => {
         className="modal-content"
         overlayClassName="modal-overlay"
       >
-        <h2>Extracted Ingredients</h2>
+        <h2>{filteredIngredients.length > 0 ? "Extracted Ingredients" : "No Ingredients Detected"}</h2>
         {filteredIngredients.length > 0 ? (
-          <ul>
-            {filteredIngredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
+          <>
+            <ul>
+              {filteredIngredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+            <button
+              className="discard-button"
+              onClick={handleDiscard}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",  
+                gap: "8px",
+                width: "100%"  
+              }}
+            >
+              <span className="material-icons">delete</span>
+              Discard
+            </button>
+            <button
+              className="add-ingredients-button"
+              onClick={() => {
+                saveToLocalStorage();
+                setModalIsOpen(false);
+                navigate("/my-ingredients");
+              }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px", 
+                width: "100%"
+              }}
+            >
+              <span className="material-icons">check</span>
+               Add to My Ingredients
+            </button>
+
+          </>
         ) : (
-          <p>No ingredients detected.</p>
+          <>
+            <p>
+              Please make sure your receipt is clear, properly aligned,
+              and that the image is of good quality.
+              If the issue persists, try uploading a different image
+              or ensure proper lighting and focus.
+            </p>
+
+            <button
+              className="ok-button"
+              onClick={() => {
+                setModalIsOpen(false);
+                handleDiscard();
+              }}
+            >
+              OK
+            </button>
+
+          </>
+
         )}
 
-        <button className="discard-button" onClick={() => {setModalIsOpen(false)}}>
-          <span className="material-icons">delete</span> Discard
-        </button>
 
-        <button className="add-ingredients-button" onClick={() => console.log("New Ingredients Added to list!")}>
-          <span className="material-icons">check</span> Add to My Ingredients
-        </button>
       </Modal>
+
     </div>
   );
 };
