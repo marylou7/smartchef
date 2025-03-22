@@ -3,6 +3,7 @@ import "./MyProfile.css";
 import { FaHamburger } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import DarkMode from "./DarkMode/DarkMode";
+import HighContrastMode from "./HighContrastMode/HighContrastMode";
 
 const dietaryOptions = ["Vegetarian", "Vegan", "Gluten-Free", "Keto", "Paleo"];
 
@@ -93,12 +94,26 @@ const MyProfile = () => {
     <div className="container">
 
       <div className="ingredients-container">
-        <h3>View My Ingredients</h3>
         <div className="button-container">
           <button className="ingredients-btn" onClick={handleButtonClick}>
             <FaHamburger className="burger-icon" /> View My Ingredients
           </button>
         </div>
+        <hr className="section-divider" />
+
+        <h3>Settings</h3>
+
+        <div className="toggle-container">
+          <label className="toggle-label">Dark Mode</label>
+          <DarkMode />
+        </div>
+
+        <div className="toggle-container">
+          <label className="toggle-label">High Constrast Mode</label>
+          <HighContrastMode />
+        </div>
+  
+
         <hr className="section-divider" />
 
         {/* Dietary Preferences */}
@@ -138,14 +153,7 @@ const MyProfile = () => {
           </div>
         </div>
 
-        <hr className="section-divider" />
-
-        <h3>Settings</h3>
-
-        <div className="toggle-container">
-          <label className="toggle-label">Dark Mode</label>
-          <DarkMode />
-        </div>
+        
         {/* Delete My Data Section */}
         <hr className="section-divider" />
         <div className="delete-container">

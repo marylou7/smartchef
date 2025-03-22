@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fff; /* Light background for default mode */
+  color: #000; /* Dark text color for readability */
 }
 
 code {
@@ -20,6 +22,16 @@ body.dark {
 
 body.dark code {
   color: #f5f5f5; 
+}
+
+
+body.high-contrast-mode {
+  background-color: #000;
+  color: #ffcc00; 
+}
+
+body.high-contrast-mode code {
+  color: #ffcc00; 
 }
 
 

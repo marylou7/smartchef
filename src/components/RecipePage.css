@@ -29,6 +29,11 @@ body.dark .recipe-title {
   text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2); 
 }
 
+body.high-contrast-mode .recipe-title {
+  color: #ffcc00; 
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.2); 
+}
+
 h4 {
   font-size: 24px;
   font-weight: bold;
@@ -41,6 +46,11 @@ h4 {
 
 body.dark h4{
   color: #f0f0f0; 
+  text-shadow: 2px 2px 4px rgba(246, 237, 237, 0.2); 
+}
+
+body.high-contrast-mode h4{
+  color: #ffcc00; 
   text-shadow: 2px 2px 4px rgba(246, 237, 237, 0.2); 
 }
 
@@ -77,6 +87,12 @@ body.dark h4{
     font-family: 'Montserrat', sans-serif;
 
   }
+
+  body.high-contrast-mode .ingredient-counter{
+    color: #ffcc00; 
+    background-color: #07070780;
+
+  }
   
   .save-icon {
     position: absolute;
@@ -110,6 +126,18 @@ body.dark h4{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+body.high-contrast-mode .cart-icon{
+
+  color: #ffcc00;
+  background-color: #07070780;
+}
+
+body.high-contrast-mode .save-icon{
+
+  color: #ffcc00;
+  background-color: #07070780;
 }
 
 

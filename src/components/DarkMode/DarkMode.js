@@ -3,64 +3,65 @@ import { ReactComponent as Sun } from "./Sun.svg";
 import { ReactComponent as Moon } from "./Moon.svg";
 import "./DarkMode.css";
 
-//Template for darkMode taken from this tutorial - https://www.youtube.com/watch?v=Uz35Qiia84g
-
 const DarkMode = () => {
+  const [mode, setMode] = useState(localStorage.getItem("mode") || "light");
 
-  const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem("darkMode") === "true");
-
-  const setDarkMode = () => {
-    document.querySelector("body").setAttribute('class', 'dark');
-    localStorage.setItem("darkMode", "true");
+  const updateMode = (newMode) => {
+    // Remove previous modes and set the new mode
+    document.body.classList.remove("dark", "high-contrast-mode", "light");
+    document.body.classList.add(newMode);
+    localStorage.setItem("mode", newMode);
+    setMode(newMode);
   };
 
-  const setLightMode = () => {
-    document.querySelector("body").setAttribute('class', 'light');
-    localStorage.setItem("darkMode", "false");
-  };
-
-  const toggleTheme = e => {
+  const toggleTheme = (e) => {
     if (e.target.checked) {
-      setDarkMode();
-      setIsDarkMode(true);
+      updateMode("dark");
     } else {
-      setLightMode();
-      setIsDarkMode(false);
+      updateMode("light");
     }
   };
 
-  // automatically detect body class changes and update state
+  useEffect(() => {
+    if (mode === "dark") {
+      document.body.classList.add("dark");
+    } else if (mode === "high-contrast-mode") {
+      document.body.classList.add("high-contrast-mode");
+    } else {
+      document.body.classList.add("light");
+    }
+  }, [mode]);
+
+  
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      const bodyClass = document.querySelector("body").className;
-      setIsDarkMode(bodyClass === "dark");
+      if (document.body.classList.contains("dark")) {
+        setMode("dark");
+      } else if (document.body.classList.contains("high-contrast-mode")) {
+        setMode("high-contrast-mode");
+      } else {
+        setMode("light");
+      }
     });
-
-    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-
+  
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  
     return () => {
-      observer.disconnect(); 
+      observer.disconnect();
     };
   }, []);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      setDarkMode();
-    } else {
-      setLightMode();
-    }
-  }, [isDarkMode]);
+  
 
   return (
-    <div className='dark_mode'>
+    <div className="dark_mode">
       <input
-        className='dark_mode_input'
-        type='checkbox'
-        id='darkmode-toggle'
-        checked={isDarkMode}
+        className="dark_mode_input"
+        type="checkbox"
+        id="darkmode-toggle"
+        checked={mode === "dark"}
         onChange={toggleTheme}
       />
-      <label className='dark_mode_label' htmlFor='darkmode-toggle'>
+      <label className="dark_mode_label" htmlFor="darkmode-toggle">
         <Sun />
         <Moon />
       </label>

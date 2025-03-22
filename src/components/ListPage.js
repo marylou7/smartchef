@@ -60,7 +60,10 @@ const ListPage = () => {
   )}
   <div>
     {items.length === 0 ? (
-      <p>No items in the list</p>
+       <>
+       <p>No items in the list.</p>
+       <p>Click Edit to add items</p>
+     </>
     ) : (
       items.map((item) => (
         <div className="ingredient-item" key={item.id}>

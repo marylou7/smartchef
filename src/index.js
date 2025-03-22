@@ -9,13 +9,18 @@ import { BrowserRouter } from 'react-router-dom';
 const Root = () => {
   useEffect(() => {
     // checks dark mode state from localStorage when the app is loaded
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode !== null) {
-      const mode = JSON.parse(savedDarkMode);
+    const savedMode = localStorage.getItem('mode');
+    if (savedMode !== null) {
       // apply the class to the body based on saved state
-      document.body.className = mode ? 'dark' : 'light';
+      if (savedMode === 'dark') {
+        document.body.className = 'dark';
+      } else if (savedMode === 'high-contrast-mode') {
+        document.body.className = 'high-contrast-mode';
+      } else {
+        document.body.className = 'light'; // default to light mode
+      }
     }
-  }, []); 
+  }, []);
 
   return (
     <BrowserRouter basename="/smartchef">

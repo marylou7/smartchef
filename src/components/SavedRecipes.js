@@ -77,7 +77,9 @@ const SavedRecipes = () => {
   return (
     <div className="saved-recipes-container">
       {recipesData.length === 0 ? (
-        <p>No saved recipes found.</p>
+        <>
+        <p>No saved recipes found. Head to the HomePage to find recipes to Save.</p>
+        </>
       ) : (
         recipesData.map((recipe) => (
           <div
