@@ -72,6 +72,12 @@ const ShoppingLists = ({ isEditable }) => {
           Add New List
         </button>
       )}
+      {shoppingLists.length === 0 && (
+        <div className="error-message">
+          <p>No shopping lists available.</p>
+          <p>Click "Edit" to create one.</p>
+        </div>
+      )}
       <div className="shopping-list-cards">
         {shoppingLists.map((list, index) => {
           // Assign a color based on the index of the list
