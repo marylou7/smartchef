@@ -15,6 +15,20 @@ body.dark .privacy-policy-container{
   background-color: #1e1d1d;
 }
 
+
+body.high-contrast-mode .privacy-policy-container{
+
+  background-color: #1e1d1d;
+}
+
+body.high-contrast-mode .privacy-policy-container h1,
+body.high-contrast-mode .privacy-policy-container h2,
+body.high-contrast-mode .privacy-policy-container p
+ {
+    color: #ffcc00;
+    
+}
+
 body.dark .privacy-policy-container h1,
 body.dark .privacy-policy-container h2,
 body.dark .privacy-policy-container p

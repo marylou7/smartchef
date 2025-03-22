@@ -16,6 +16,19 @@ const ShoppingLists = ({ isEditable }) => {
     "#C1D3D8"
   ];
 
+  const colorSetB = [
+    "#3A0066",
+    "#1F5A3B",
+    "#9E1C08",
+    "#172C6B",
+    "#6A0000",
+    "#3E4A21",
+    "#600060",
+    "#9E1D1D"
+  ];
+  
+  
+
 
   // load shopping lists from localStorage or use an empty array
   const loadShoppingLists = () => {
@@ -80,8 +93,12 @@ const ShoppingLists = ({ isEditable }) => {
       )}
       <div className="shopping-list-cards">
         {shoppingLists.map((list, index) => {
+
+        const colorSetToUse = document.body.classList.contains('high-contrast-mode') ? colorSetB : colorSet;
+
           // Assign a color based on the index of the list
-          const color = colorSet[index % colorSet.length];
+          const color = colorSetToUse[index % colorSetToUse.length];
+          
 
           return (
             <div
@@ -101,7 +118,7 @@ const ShoppingLists = ({ isEditable }) => {
                 ) : (
                   <h3
                     style={{
-                      color: 'black',
+                      color: document.body.classList.contains('high-contrast-mode') ? 'yellow' : 'black',
                       fontWeight: 'bold',
                       fontFamily: 'Montserrat, sans-serif' // Add font-family here
                     }}

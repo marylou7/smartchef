@@ -38,6 +38,26 @@ margin-bottom: 40px;
   font-family: 'Montserrat', sans-serif;  
 }
 
+body.high-contrast-mode .filter-tag {
+
+  background: #454442;
+    color: #ffcc00;
+}
+
+body.high-contrast-mode .filter-option {
+
+  background: #454442;
+    color: #ffcc00;
+}
+
+
+body.high-contrast-mode .filter-option.selected {
+
+  background: #ffcc00;
+    color: #454442;
+}
+
+
 
   
 
@@ -95,6 +115,13 @@ margin-bottom: 40px;
     margin-top: 14px;
   }
 
+  body.high-contrast-mode .filter-icon{
+
+    color: #ffcc00;
+  }
+    
+
+
 
   .filter-dropdown {
     display: flex;
@@ -137,6 +164,10 @@ margin-bottom: 40px;
     gap: 5px;
   }
 
+
+
+  
+
   .no-recipes-found {
     margin: 20px;
     margin-top: 80px;
@@ -162,4 +193,17 @@ margin-bottom: 40px;
     color: #000; 
     height: 40px;
   }
+
+  body.high-contrast-mode .search-bar .MuiInputBase-root{
+    background-color: #333131; 
+    color: #ffcc00; 
+    height: 40px;
+  }
+
+  body.high-contrast-mode  .search-icon{
+    background-color: #333131; 
+    color: #ffcc00; 
+    height: 40px;
+  }
+  
   

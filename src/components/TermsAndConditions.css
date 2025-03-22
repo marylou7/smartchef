@@ -13,6 +13,17 @@
   body.dark .terms-container {
     background-color: #1e1d1d;
   }
+
+  body.high-contrast-mode .terms-container {
+    background-color: #1e1d1d;
+  }
+
+  body.high-contrast-mode .terms-container h1,
+  body.high-contrast-mode .terms-container h2,
+  body.high-contrast-mode .terms-container p {
+    color: #ffcc00;
+  }
+  
   
   body.dark .terms-container h1,
   body.dark .terms-container h2,

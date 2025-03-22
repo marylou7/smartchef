@@ -74,3 +74,10 @@ p {
   color: #555;
   margin: 20px;
 }
+
+body.high-contrast-mode p {
+  font-size: 15px;
+  text-align: center;
+  color: #ffe817;
+  margin: 20px;
+}

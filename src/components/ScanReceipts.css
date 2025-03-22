@@ -21,7 +21,7 @@
   align-items: center;
   width: 100%;
   max-width: 600px;
-  height: auto;
+  height: 1400px;
   overflow: hidden;
 }
 
@@ -67,17 +67,26 @@
   transition: background-color 0.3s;
 }
 
+body.high-contrast-mode .camera-button{
+
+  background: #454442;
+  color: #ffcc00;
+}
+
+body.high-contrast-mode .upload-button{
+
+  background: #454442;
+  color: #ffcc00;
+}
+
+
+
+
 .camera-button:hover,
 .upload-button:hover {
   background-color: #0056b3;
 }
 
-.upload-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
 
 .upload-input {
   display: none;
@@ -152,6 +161,11 @@ body.dark .modal-content {
   background: #333;
 }
 
+body.high-contrast-mode .modal-content {
+
+  background: #333;
+}
+
 .modal-content h2 {
   margin-bottom: 8px;
   font-size: 1.5rem;
@@ -171,6 +185,11 @@ body.dark .modal-content {
 body.dark .modal-content p {
 
   color: aliceblue;
+}
+
+body.high-contrast-mode .modal-content p {
+
+  color: #ffcc00;
 }
 
 
@@ -220,14 +239,39 @@ body.dark .modal-content p {
   color: white;
 }
 
+body.high-contrast-mode .ok-button,.discard-button, .add-ingredients-button {
+
+  color: #ffcc00;
+
+}
+
+body.high-contrast-mode .ingredients-btn{
+
+ background-color: #b65104;
+}
+
+body.high-contrast-mode .discard-button{
+
+  background-color: #6c0f05;
+ }
+
+
+body.high-contrast-mode .ok-button, .add-ingredients-button{
+
+  background-color: #064332;
+ }
+ 
+
+
 .add-ingredients-button:hover {
   background-color: #218838;
 }
 
 
+
 .loading-overlay {
   position: absolute;
-  top: 20%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.7);
