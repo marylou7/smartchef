@@ -1,17 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ToggleSlider } from "react-toggle-slider";
 import "./MyProfile.css";
 import { FaHamburger } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
-
-
+import DarkMode from "./DarkMode/DarkMode";
 
 const dietaryOptions = ["Vegetarian", "Vegan", "Gluten-Free", "Keto", "Paleo"];
 
 const MyProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [active, setActive] = useState(false);
   const [dietPreferences, setDietPreferences] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -20,18 +16,12 @@ const MyProfile = () => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const savedDarkMode = localStorage.getItem("darkMode");
-    if (savedDarkMode !== null) {
-      setActive(JSON.parse(savedDarkMode));
-    }
 
     const savedDiet = JSON.parse(localStorage.getItem("dietPreferences")) || [];
     setDietPreferences(savedDiet);
 
-    document.body.className = active ? "dark" : "light";
-
     setIsLoading(false);
-  }, [active]);
+  }, []);
 
   useEffect(() => {
     // function to close the menu if a user clicks outside the menu
@@ -49,12 +39,6 @@ const MyProfile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleToggleChange = (state) => {
-    setActive(state);
-    localStorage.setItem("darkMode", JSON.stringify(state));
-    document.body.className = state ? "dark" : "light";
-  };
 
   const handleDietChange = (preference) => {
     let updatedPreferences;
@@ -86,13 +70,8 @@ const MyProfile = () => {
     navigate("/terms-and-conditions");
   };
 
-  const handleDeleteData = () => {
-    //localStorage.removeItem("dietPreferences"); 
-    //setDietPreferences([]);  
-    //setShowDeleteConfirmation(false); 
-    //handleToggleChange(false);
-  };
-  
+
+
 
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
@@ -101,6 +80,14 @@ const MyProfile = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  const handleDeleteData = () => {
+    localStorage.clear();
+    setShowDeleteConfirmation(false);
+    document.querySelector("body").setAttribute('class', 'light');
+  };
+
+
 
   return (
     <div className="container">
@@ -112,11 +99,6 @@ const MyProfile = () => {
             <FaHamburger className="burger-icon" /> View My Ingredients
           </button>
         </div>
-
-
-
-
-
         <hr className="section-divider" />
 
         {/* Dietary Preferences */}
@@ -162,41 +144,34 @@ const MyProfile = () => {
 
         <div className="toggle-container">
           <label className="toggle-label">Dark Mode</label>
-          <ToggleSlider
-            onToggle={handleToggleChange}
-            active={active}
-            thumbColor="#fff"
-            trackColor="#4CAF50"
-            width={60}
-            height={30}
-          />
+          <DarkMode />
         </div>
-            {/* Delete My Data Section */}
-            <hr className="section-divider" />
-            <div className="delete-container">
-            <button
-  className="delete-btn"
-  onClick={() => setShowDeleteConfirmation(true)}
->
-  <i className="fas fa-exclamation-triangle"></i>
-   Delete My Data 
-  <i className="fas fa-exclamation-triangle"></i>
-</button>
+        {/* Delete My Data Section */}
+        <hr className="section-divider" />
+        <div className="delete-container">
+          <button
+            className="delete-btn"
+            onClick={() => setShowDeleteConfirmation(true)}
+          >
+            <i className="fas fa-exclamation-triangle"></i>
+            Delete My Data
+            <i className="fas fa-exclamation-triangle"></i>
+          </button>
 
 
-  {/* Delete Confirmation Modal */}
-  {showDeleteConfirmation && (
-    <div className="confirmation-modal">
-      <div className="modal-content">
-        <p>Are you sure you want to delete all your data?</p>
-        <div className="modal-buttons">
-          <button onClick={handleDeleteData} className="confirm-btn">Yes, Delete</button>
-          <button onClick={handleCancelDelete} className="cancel-btn">Cancel</button>
+          {/* Delete Confirmation Modal */}
+          {showDeleteConfirmation && (
+            <div className="confirmation-modal">
+              <div className="modal-content">
+                <p>Are you sure you want to delete all your data?</p>
+                <div className="modal-buttons">
+                  <button onClick={handleDeleteData} className="confirm-btn">Yes, Delete</button>
+                  <button onClick={handleCancelDelete} className="cancel-btn">Cancel</button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    </div>
-  )}
-</div>
 
 
 
@@ -221,8 +196,8 @@ const MyProfile = () => {
             </span>.
           </p>
 
-       
-  
+
+
         </div>
 
       </div>
