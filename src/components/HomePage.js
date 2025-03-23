@@ -3,6 +3,8 @@ import { Search, Filter, X } from "lucide-react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import './HomePage.css';
+import defaultImage from './defualtImage.png'; // Import the default image
+
 
 const filtersList = ["MainMeal", "Dessert", "Soup", "Breakfast", "Vegetarian"];
 
@@ -235,7 +237,7 @@ const HomePage = () => {
               <div key={recipe.idMeal} className="recipe-card">
                 <Link to={`/recipe/${recipe.idMeal}`}>
                   <img
-                    src={recipe.strMealThumb}
+                    src={recipe.strMealThumb || defaultImage} 
                     alt={recipe.strMeal}
                     className="recipe-image"
                   />
