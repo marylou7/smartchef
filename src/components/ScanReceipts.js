@@ -62,35 +62,39 @@ const ScanReceipts = () => {
     }
   };
 
-  const extractIngredients = async (imageDataUrl) => {
-    setIsLoading(true); 
+ const extractIngredients = async (imageDataUrl) => {
+  //console.log("Extracting ingredients from:", imageDataUrl); 
+  setIsLoading(true);
 
-    try {
-      const { data: { text } } = await Tesseract.recognize(imageDataUrl, "eng", {
-        logger: (m) => console.log(m),
-      });
+  try {
+    const { data: { text } } = await Tesseract.recognize(imageDataUrl, "eng", {
+      logger: (m) => console.log(m),
+    });
 
-      console.log("Extracted Text:", text);
-      setExtractedText(text);
+    setExtractedText(text);
 
-      const ingredientList = parseIngredients(text);
-      setIngredients(ingredientList);
-      filterIngredients(ingredientList);
-    } catch (error) {
-      console.error("Error extracting ingredients", error);
-    } finally {
-      setIsLoading(false); 
-    }
-  };
+    const ingredientList = parseIngredients(text);
+    setIngredients(ingredientList);
+    filterIngredients(ingredientList);
+  } catch (error) {
+    console.error("Error extracting ingredients", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const parseIngredients = (text) => {
-    let words = text.toLowerCase().split(/\s+/);
-    words = words
-      .map((word) => word.replace(/[^a-z]/g, "").trim())
-      .filter((word) => word.length > 0);
-    console.log(words);
-    return words;
-  };
+  let words = text.toLowerCase().split(/\s+/);
+  
+  // filter out any words that contain numbers
+  words = words
+    .map((word) => word.replace(/[^a-z]/g, "").trim()) // remove non alphabetic characters
+    .filter((word) => word.length > 0 && !/\d/.test(word)); // remove any word that contains a number
+
+  console.log(words);
+  return words;
+};
 
   const filterIngredients = async (ingredientsList) => {
     try {
@@ -118,12 +122,16 @@ const ScanReceipts = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        setImageSrc(null); 
+        setFilteredIngredients([]); 
         setImageSrc(reader.result);
         extractIngredients(reader.result);
+        event.target.value = ""; 
       };
       reader.readAsDataURL(file);
     }
   };
+  
 
   const saveToLocalStorage = () => {
     let savedIngredients = JSON.parse(localStorage.getItem("mySavedIngredients")) || [];
@@ -166,6 +174,23 @@ const ScanReceipts = () => {
       console.error("Error accessing the camera", err);
     }
   };
+
+  const generateKey = async () => {
+    const key = await window.crypto.subtle.generateKey(
+      {
+        name: "AES-GCM",
+        length: 256, 
+      },
+      true, 
+      ["encrypt", "decrypt"] 
+    );
+    return key;
+  };
+  
+  generateKey().then((key) => {
+    console.log(key);
+  });
+  
 
 
 
