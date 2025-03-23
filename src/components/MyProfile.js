@@ -13,8 +13,10 @@ const MyProfile = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const navigate = useNavigate();
-
   const dropdownRef = useRef(null);
+
+  console.log(localStorage.getItem("hasAcceptedTerms"));
+
 
   useEffect(() => {
 
@@ -25,17 +27,13 @@ const MyProfile = () => {
   }, []);
 
   useEffect(() => {
-    // function to close the menu if a user clicks outside the menu
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
 
-    // Add event listener to detect clicks outside the dropdown
     document.addEventListener("mousedown", handleClickOutside);
-
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -71,9 +69,6 @@ const MyProfile = () => {
     navigate("/terms-and-conditions");
   };
 
-
-
-
   const handleCancelDelete = () => {
     setShowDeleteConfirmation(false);
   };
@@ -88,11 +83,8 @@ const MyProfile = () => {
     document.querySelector("body").setAttribute('class', 'light');
   };
 
-
-
   return (
     <div className="container">
-
       <div className="ingredients-container">
         <div className="button-container">
           <button className="ingredients-btn" onClick={handleButtonClick}>
@@ -109,10 +101,9 @@ const MyProfile = () => {
         </div>
 
         <div className="toggle-container">
-          <label className="toggle-label">High Constrast Mode</label>
+          <label className="toggle-label">High Contrast Mode</label>
           <HighContrastMode />
         </div>
-  
 
         <hr className="section-divider" />
 
@@ -153,19 +144,12 @@ const MyProfile = () => {
           </div>
         </div>
 
-        
         {/* Delete My Data Section */}
         <hr className="section-divider" />
         <div className="delete-container">
-          <button
-            className="delete-btn"
-            onClick={() => setShowDeleteConfirmation(true)}
-          >
-            <i className="fas fa-exclamation-triangle"></i>
-            Delete My Data
-            <i className="fas fa-exclamation-triangle"></i>
+          <button className="delete-btn" onClick={() => setShowDeleteConfirmation(true)}>
+            <i className="fas fa-exclamation-triangle"></i> Delete My Data <i className="fas fa-exclamation-triangle"></i>
           </button>
-
 
           {/* Delete Confirmation Modal */}
           {showDeleteConfirmation && (
@@ -180,8 +164,6 @@ const MyProfile = () => {
             </div>
           )}
         </div>
-
-
 
         <hr className="section-divider" />
 
@@ -203,11 +185,7 @@ const MyProfile = () => {
               Terms & Conditions
             </span>.
           </p>
-
-
-
         </div>
-
       </div>
     </div>
   );
