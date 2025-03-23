@@ -199,3 +199,162 @@ body.high-contrast-mode .save-icon{
     color: #e0e0e0;
   }
 
+  .modal-overlay {
+    position: fixed;
+    margin-right: 10px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal {
+    background: white;
+    margin-right: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    animation: slideInTop 0.6s ease-out;
+  }
+
+  @keyframes slideInTop {
+    0% {
+      transform: translateY(-50%);
+      opacity: 0;
+    }
+  
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  body.high-contrast-mode .modal {
+    background: #333;
+
+  }
+
+  body.dark .modal {
+    background: #333;
+
+  }
+
+  body.high-contrast-mode .close-modal-btn {
+    color: #ffcc00 !important;
+    background-color: #6c0f05 !important;
+
+  }
+
+  body.high-contrast-mode .shopping-list-btn {
+    color: #ffcc00 !important;
+    background-color: #064332 !important;
+
+  }
+  
+  
+  .modal button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    background: #dc3545;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  ul {
+    list-style-type: none;  
+    padding: 0;            
+  }
+
+  .close-modal-btn {
+    background-color: #ba1900 !important;
+    color: white !important;
+    margin-top: 30px !important;
+  }
+
+  
+  .shopping-list-btn {
+    background-color: #066c4f !important;
+    color: white !important;
+  }
+  
+
+.close-modal-btn {
+  height: 50px;
+  background-color: #d8d8d8; 
+  color: white;
+  padding: 10px 15px;
+  font-size: 19px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+ 
+  
+}
+
+
+.shopping-list-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.shopping-list-btn {
+  background-color: #136125;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+
+
+.tick-animation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  color: green;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  background-color: #000000; 
+  border-radius: 50%; 
+  width: 80px; 
+  height: 80px; 
+  box-shadow: 0px 4px 6px rgba(110, 110, 110, 0.2); 
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

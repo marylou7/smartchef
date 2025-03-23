@@ -13,13 +13,30 @@ const RecipePage = () => {
   const [savedIngredients, setSavedIngredients] = useState([]);
   const [savedIngredientCount, setSavedIngredientCount] = useState(0);
   const [savedIngredientNames, setSavedIngredientNames] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [checkedIngredients, setCheckedIngredients] = useState({});
+  const [showTick, setShowTick] = useState(false);  // State to show tick animation
+
+
+  const ingredients = [];
+  if (recipe) {
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = recipe[`strIngredient${i}`];
+      const measure = recipe[`strMeasure${i}`];
+      if (ingredient && ingredient !== "") {
+        ingredients.push(`${measure} ${ingredient}`);
+      }
+    }
+  }
+
+
 
 
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
-        //await new Promise(resolve => setTimeout(resolve, 10000)); // 10 second delay to test loading animation
-      
+      //await new Promise(resolve => setTimeout(resolve, 10000)); // 10 second delay to test loading animation
+
       try {
         const response = await fetch(
           `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
@@ -92,11 +109,41 @@ const RecipePage = () => {
     setIsSaved(!isSaved);
   };
 
-  const cleanIngredient = (ingredient) => {
-    const cleaned = ingredient.replace(/(\d+|\s*(cup|tsp|tbsp|ml|l|g|kg|oz|lb|cl|fl|pt)\s*)/gi, '').trim();
-    return cleaned.toLowerCase();
+  useEffect(() => {
+    setCheckedIngredients(prevChecked => {
+      const updatedChecked = { ...prevChecked };
+
+      let hasChanges = false; // flag to check if we need to update
+
+      ingredients.forEach(ingredient => {
+        if (!(ingredient in updatedChecked)) {
+          updatedChecked[ingredient] = savedIngredients.some(saved => {
+            const savedName = saved.name ? saved.name : "";
+            return ingredient.toLowerCase().includes(savedName.toLowerCase());
+          });
+          hasChanges = true;
+        }
+      });
+
+
+      if (hasChanges) {
+        return updatedChecked;
+      }
+
+      return prevChecked;
+    });
+  }, [ingredients, savedIngredients]);
+
+
+  // handle ingredient check/uncheck
+  const handleIngredientCheck = (ingredient, isChecked) => {
+    setCheckedIngredients(prev => ({ ...prev, [ingredient]: isChecked }));
   };
 
+  // filter missing ingredients (ie. unchecked ones)
+  const getMissingIngredients = () => {
+    return ingredients.filter(ingredient => !checkedIngredients[ingredient]);
+  };
 
   if (loading) {
     return (
@@ -114,19 +161,58 @@ const RecipePage = () => {
       </div>
     );
   }
-  
-
-  const ingredients = [];
-  for (let i = 1; i <= 20; i++) {
-    const ingredient = recipe[`strIngredient${i}`];
-    const measure = recipe[`strMeasure${i}`];
-    if (ingredient && ingredient !== "") {
-      ingredients.push(`${measure} ${ingredient}`);
-    }
-  }
 
   const instructionsSteps = recipe.strInstructions.split(/[.\n]+/).map(step => step.trim()).filter(step => step);
-  const ingredientCounter = `${savedIngredientCount}/${ingredients.length}`;
+
+  // calculate the number of checked ingredients
+  const checkedIngredientCount = Object.values(checkedIngredients).filter(Boolean).length;
+  const ingredientCounter = `${checkedIngredientCount}/${ingredients.length}`;
+
+
+  // get shopping lists from localStorage
+  const getShoppingLists = () => {
+    return JSON.parse(localStorage.getItem('shoppingLists')) || [];
+  };
+
+  const handleAddToShoppingList = (listId, missingIngredients) => {
+
+    const shoppingListKey = `shoppingList-${listId}`;
+    const shoppingList = JSON.parse(localStorage.getItem(shoppingListKey)) || [];
+    const existingIngredients = new Set(shoppingList.map(item => item.name));
+
+    // Filter out any duplicate ingredients
+    const uniqueIngredients = missingIngredients.filter(ingredient => !existingIngredients.has(ingredient));
+
+    // adds only unique ingredients to the shopping list
+    uniqueIngredients.forEach(ingredient => {
+      shoppingList.push({ id: shoppingList.length + 1, name: ingredient, checked: false });
+    });
+
+    // saves the updated shopping list back to localStorage
+    localStorage.setItem(shoppingListKey, JSON.stringify(shoppingList));
+
+    setShowTick(true); //animation
+
+    setTimeout(() => {
+      setShowModal(false);  
+      setShowTick(false);  
+    }, 1000);  
+  };
+
+
+  // Display the shopping lists as buttons
+  const displayShoppingLists = () => {
+    const shoppingLists = getShoppingLists();
+    return shoppingLists.map((list, index) => (
+      <button
+        key={index}
+        className="shopping-list-btn"
+        onClick={() => handleAddToShoppingList(list.id, getMissingIngredients())}
+      >
+        {list.name}
+      </button>
+    ));
+  };
 
   return (
     <div className="recipe-container">
@@ -137,7 +223,7 @@ const RecipePage = () => {
             {isSaved ? <FaBookmark style={{ color: 'rgb(255, 252, 162)' }} /> : <BookmarkBorder style={{ fontSize: '40px' }} />}
           </div>
           <div className="cart-icon">
-            <FaShoppingCart onClick={() => console.log("Missing Ingredients added to List!")} />
+            <FaShoppingCart onClick={() => setShowModal(true)} />
           </div>
           <div className="ingredient-counter">
             {ingredientCounter}
@@ -152,15 +238,13 @@ const RecipePage = () => {
               <input
                 type="checkbox"
                 className="colored-checkbox"
-                defaultChecked={savedIngredients.some(saved => {
-                  const savedName = saved.name ? saved.name : ""; // handle missing names
-                  return ingredient.toLowerCase().includes(savedName.toLowerCase()); // check if saved ingredient is part of the ingredient 
-                })}
+                checked={checkedIngredients[ingredient] || false}
+                onChange={(e) => handleIngredientCheck(ingredient, e.target.checked)}
+
               />
               <span>{ingredient}</span>
             </div>
           ))}
-
         </div>
 
         {recipe.strYoutube && (
@@ -187,8 +271,54 @@ const RecipePage = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Add Missing Ingredients to a Shopping List?</h3>
+            {getMissingIngredients().length > 0 ? (
+              <ul>
+                {getMissingIngredients().map((missingIngredient, index) => (
+                  <li key={index}>{missingIngredient}</li>
+                ))}
+              </ul>
+            ) : (
+              <p>All ingredients are checked!</p>
+            )}
+
+            {/* display Shopping List Buttons only if there are missing ingredients */}
+            {getMissingIngredients().length > 0 && (
+              <>
+                {getShoppingLists().length > 0 ? (
+                  <div className="shopping-list-buttons-container">
+                    {displayShoppingLists()}
+                  </div>
+                ) : (
+                  <strong className="error-message">No shopping lists available. Please create one first.</strong>
+                )}
+              </>
+            )}
+
+            <div className="close-btn-container">
+              <button className="close-modal-btn" onClick={() => setShowModal(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/* Tick animation */}
+      {showTick && (
+        <div className="tick-animation">
+          <span>✔</span>
+        </div>
+      )}
     </div>
   );
+
 };
 
 export default RecipePage;
