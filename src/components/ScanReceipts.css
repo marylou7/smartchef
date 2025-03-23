@@ -239,7 +239,18 @@ body.high-contrast-mode .modal-content p {
   color: white;
 }
 
-body.high-contrast-mode .ok-button,.discard-button, .add-ingredients-button {
+body.high-contrast-mode .add-ingredients-button {
+
+  color: #ffcc00;
+}
+
+body.high-contrast-mode .ok-button{
+
+  color: #ffcc00;
+
+}
+
+body.high-contrast-mode .discard-button{
 
   color: #ffcc00;
 
@@ -256,13 +267,16 @@ body.high-contrast-mode .discard-button{
  }
 
 
-body.high-contrast-mode .ok-button, .add-ingredients-button{
+body.high-contrast-mode .ok-button{
+
+  background-color: #064332;
+ }
+
+ body.high-contrast-mode .add-ingredients-button{
 
   background-color: #064332;
  }
  
-
-
 .add-ingredients-button:hover {
   background-color: #218838;
 }
