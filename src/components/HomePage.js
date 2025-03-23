@@ -13,6 +13,10 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [recipe, setRecipe] = useState(null);
+  const [savedIngredients, setSavedIngredients] = useState([]);
+  const [savedIngredientCount, setSavedIngredientCount] = useState(0);
+  const [savedIngredientNames, setSavedIngredientNames] = useState([]);
 
   // function to fetch multiple random meals
   const fetchRandomMeals = async (count = 5) => {
@@ -69,10 +73,10 @@ const HomePage = () => {
           const dietPreferences = JSON.parse(localStorage.getItem("dietPreferences")) || [];
           const prioritizedRecipes = data.meals
             ? data.meals.sort((a, b) => {
-                const aMatches = a.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
-                const bMatches = b.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
-                return bMatches - aMatches; 
-              })
+              const aMatches = a.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
+              const bMatches = b.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
+              return bMatches - aMatches;
+            })
             : [];
 
           setRecipes(prioritizedRecipes);
@@ -86,6 +90,13 @@ const HomePage = () => {
       fetchSearchedRecipes();
     }
   }, [search]);
+
+  useEffect(() => {
+
+    const savedIngredientsList = JSON.parse(localStorage.getItem("mySavedIngredients")) || [];
+    setSavedIngredients(savedIngredientsList);
+  }, []);
+
 
   // Filter the recipes based on selected filters
   const filteredRecipes = recipes.filter((recipe) => {
@@ -110,6 +121,8 @@ const HomePage = () => {
   const removeFilter = (filter) => {
     setSelectedFilters(selectedFilters.filter((f) => f !== filter));
   };
+
+
 
   return (
     <div className="p-4">
@@ -186,40 +199,71 @@ const HomePage = () => {
         <div className="mt-4 text-center text-red-500">{error}</div>
       )}
 
+
       {filteredRecipes.length > 0 ? (
         <div className="recipes-container">
-          {filteredRecipes.map((recipe) => (
-            <div key={recipe.idMeal} className="recipe-card">
-              <Link to={`/recipe/${recipe.idMeal}`}>
-                <img
-                  src={recipe.strMealThumb}
-                  alt={recipe.strMeal}
-                  className="recipe-image"
-                />
-              </Link>
-              {recipe.strTags && (
-                <div className="recipe-tags">
-                  {recipe.strTags.split(',').map((tag, index) => (
-                    <span key={index} className="tag">
-                      {tag.trim()}
-                    </span>
-                  ))}
+          {filteredRecipes.map((recipe) => {
+            // Check if recipe is valid 
+            if (!recipe) {
+              return null; 
+            }
+
+            const ingredients = [];
+            for (let i = 1; i <= 20; i++) {
+              const ingredient = recipe[`strIngredient${i}`];
+              const measure = recipe[`strMeasure${i}`];
+              if (ingredient && ingredient !== "") {
+                ingredients.push(`${measure} ${ingredient}`);
+              }
+            }
+
+            const matchingIngredients = ingredients.filter(ingredient =>
+              savedIngredients.some(saved => ingredient.toLowerCase().includes(saved.name.toLowerCase()))
+            );
+
+            // Debug statements
+            //console.log("All Ingredients:", ingredients);
+            //console.log("Matching Ingredients:", matchingIngredients);
+            //console.log("Svaed Ingredients:", savedIngredients);
+
+
+            // Ingredient counter calculation
+            const ingredientCounter = `${matchingIngredients.length}/${ingredients.length}`;
+
+            //console.log(ingredientCounter);
+            return (
+              <div key={recipe.idMeal} className="recipe-card">
+                <Link to={`/recipe/${recipe.idMeal}`}>
+                  <img
+                    src={recipe.strMealThumb}
+                    alt={recipe.strMeal}
+                    className="recipe-image"
+                  />
+                </Link>
+                {recipe.strTags && (
+                  <div className="recipe-tags">
+                    {recipe.strTags.split(',').map((tag, index) => (
+                      <span key={index} className="tag">
+                        {tag.trim()}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <h3 className="recipe-name">{recipe.strMeal}</h3>
+                <div className="ingredient-counter">
+                  <span className="ingredient-counter-tag">{ingredientCounter}</span>
                 </div>
-              )}
-              <h3 className="recipe-name">{recipe.strMeal}</h3>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       ) : (
-        !loading && (
-          <div className="no-recipes-found">
-            No recipes found with the selected filters.
-          </div>
-        )
+        <div className="no-recipes-found">No recipes found with the selected filters.</div>
       )}
+
     </div>
   );
 };
 
-     
+
 export default HomePage;
