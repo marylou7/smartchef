@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SavedRecipes.css";
 import { Bookmark } from "@mui/icons-material";
+import defaultImage from './defualtImage.png'; // Import the default image
 
 const SavedRecipes = () => {
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -78,26 +79,35 @@ const SavedRecipes = () => {
     <div className="saved-recipes-container">
       {recipesData.length === 0 ? (
         <>
-        <p>No saved recipes found. Head to the HomePage to find recipes to Save.</p>
+          <p>No saved recipes found. Head to the HomePage to find recipes to Save.</p>
         </>
       ) : (
-        recipesData.map((recipe) => (
-          <div
-            key={recipe.id}
-            className="recipe-card"
-            onClick={() => handleRecipeClick(recipe.id)}
-            style={{ cursor: "pointer" }}
-          >
-            <img src={recipe.image} alt={recipe.name} className="recipe-image" />
-            <h3 className="recipe-name">{recipe.name}</h3>
-            <Bookmark  className="bookmark-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleUnsave(recipe.id);
-              }}
-            />
-          </div>
-        ))
+        recipesData.map((recipe) => {
+          const imageUrl = recipe.image || defaultImage;
+
+          return (
+            <div
+              key={recipe.id}
+              className="recipe-card"
+              onClick={() => handleRecipeClick(recipe.id)}
+              style={{ cursor: "pointer" }}
+            >
+              <img 
+                src={imageUrl} 
+                alt={recipe.name} 
+                className="recipe-image" 
+              />
+              <h3 className="recipe-name">{recipe.name}</h3>
+              <Bookmark
+                className="bookmark-icon"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleUnsave(recipe.id);
+                }}
+              />
+            </div>
+          );
+        })
       )}
     </div>
   );
