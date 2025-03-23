@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { CameraAlt, List, Home, BookmarkBorder, AccountCircle } from '@mui/icons-material';
 import './Navbar.css'; // Import the CSS file
+import { useTerms } from '../TermsContext';
 
 const Navbar = () => {
+
+  const { hasAcceptedTerms } = useTerms(); 
+  //const [hasAcceptedTerms, setHasAcceptedTerms] = useState(true); //for testing
+
+  // Only render the navbar if the user has accepted the terms
+  if (!hasAcceptedTerms) {
+    return null; 
+  }
+
   return (
     <nav className="navbar">
       <ul className="nav-list">

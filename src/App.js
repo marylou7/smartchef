@@ -13,6 +13,8 @@ import ListPage from './components/ListPage';
 import MyIngredientsPage from './components/MyIngredientsPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsAndConditions from './components/TermsAndConditions';
+import { TermsProvider } from "./TermsContext";
+import TermsModal from "./components/TermsModal";
 
 function App() {
   const [isEditable, setIsEditable] = useState(false);
@@ -23,9 +25,12 @@ function App() {
 
   return (
     <div className="App">
+        <TermsProvider>
+        <TermsModal />
       <TopBar isEditable={isEditable} handleEditClick={handleEditClick} />
       <Navbar />
       <div style={{ marginTop: "45px" }}> {/* margin the same height as the topbar so the page doesn't get hidden */}
+       
         <Routes>
           <Route path="/scan-recipes" element={<ScanReceipts />} />
           <Route path="/shopping-lists" element={<ShoppingLists isEditable={isEditable} />} />
@@ -38,7 +43,9 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         </Routes>
+      
       </div>
+      </TermsProvider>
     </div>
   );
 }
