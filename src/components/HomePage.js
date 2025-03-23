@@ -65,7 +65,17 @@ const HomePage = () => {
           );
           const data = await response.json();
 
-          setRecipes(data.meals || []);
+          // prioritize recipes that match the user's diet preferences
+          const dietPreferences = JSON.parse(localStorage.getItem("dietPreferences")) || [];
+          const prioritizedRecipes = data.meals
+            ? data.meals.sort((a, b) => {
+                const aMatches = a.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
+                const bMatches = b.strTags?.split(',').some(tag => dietPreferences.includes(tag.trim())) ? 1 : 0;
+                return bMatches - aMatches; 
+              })
+            : [];
+
+          setRecipes(prioritizedRecipes);
         } catch (err) {
           setError("Error fetching recipes. Please try again later.");
         } finally {
