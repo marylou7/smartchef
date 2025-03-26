@@ -28,10 +28,7 @@ const RecipePage = () => {
       }
     }
   }
-
-
-
-
+  
   useEffect(() => {
     const fetchRecipe = async () => {
       setLoading(true);
@@ -55,9 +52,6 @@ const RecipePage = () => {
 
     fetchRecipe();
   }, [id]);
-
-
-
 
   useEffect(() => {
 

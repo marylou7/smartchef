@@ -17,7 +17,7 @@ const MyProfile = () => {
 
   console.log(localStorage.getItem("hasAcceptedTerms"));
 
-
+ // fetch stored dietary preferences from localStorage
   useEffect(() => {
 
     const savedDiet = JSON.parse(localStorage.getItem("dietPreferences")) || [];
@@ -26,13 +26,15 @@ const MyProfile = () => {
     setIsLoading(false);
   }, []);
 
+  
   useEffect(() => {
+    // function to close dropdown if user clicks outside of it
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-
+ // adds an event listener for detecting clicks outside the dropdown
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

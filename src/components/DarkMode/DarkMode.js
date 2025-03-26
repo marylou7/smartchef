@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as Sun } from "./Sun.svg";
 import { ReactComponent as Moon } from "./Moon.svg";
+
+//template taken from YouTube tutorial - https://www.youtube.com/watch?v=Uz35Qiia84g&t=301s
+
 import "./DarkMode.css";
 
 const DarkMode = () => {

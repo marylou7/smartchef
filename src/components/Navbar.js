@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { CameraAlt, List, Home, BookmarkBorder, AccountCircle } from '@mui/icons-material';
-import './Navbar.css'; // Import the CSS file
+import './Navbar.css'; 
 import { useTerms } from '../TermsContext';
 
 const Navbar = () => {

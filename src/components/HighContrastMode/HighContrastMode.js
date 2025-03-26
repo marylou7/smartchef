@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./HighContrastMode.css";
 
+//template taken from YouTube tutorial - https://www.youtube.com/watch?v=Uz35Qiia84g&t=301s
+
 const HighContrastMode = () => {
   const [mode, setMode] = useState(localStorage.getItem("mode") || "light");
 

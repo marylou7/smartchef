@@ -23,11 +23,15 @@ const ScanReceipts = () => {
 
 
   useEffect(() => {
+     // function to start the camera feed
     const startCamera = async () => {
       try {
+           // request access to the user's camera
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
+          video: { facingMode: "environment" },  // use the back camera if available
         });
+
+          // assign the camera stream to the video element
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -37,23 +41,28 @@ const ScanReceipts = () => {
     };
 
     startCamera();
+    // cleanup function to stop the camera 
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject;
         const tracks = stream.getTracks();
+         // stop each track in the stream to free up resources
         tracks.forEach((track) => track.stop());
       }
     };
   }, []);
 
   const captureImage = () => {
+     // ensure video and canvas elements are available
     if (videoRef.current && canvasRef.current) {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
 
+       // sets canvas dimensions to match the video feed
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
 
+          // draw the current video frame onto the canvas
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
       const imageURL = canvas.toDataURL("image/png");
@@ -118,6 +127,7 @@ const ScanReceipts = () => {
   };
 
   const handleFileUpload = (event) => {
+    // gets the uploaded file from the input event
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -126,7 +136,7 @@ const ScanReceipts = () => {
         setFilteredIngredients([]); 
         setImageSrc(reader.result);
         extractIngredients(reader.result);
-        event.target.value = ""; 
+        event.target.value = ""; // resets the file input field to allow reuploading
       };
       reader.readAsDataURL(file);
     }
@@ -134,26 +144,30 @@ const ScanReceipts = () => {
   
 
   const saveToLocalStorage = () => {
+      // gets the existing saved ingredients from local storage or initialize an empty array
     let savedIngredients = JSON.parse(localStorage.getItem("mySavedIngredients")) || [];
 
+  // create a set to store ingredient names in lowercase to look them up easily
     const existingNames = new Set(savedIngredients.map((ing) => ing.name.toLowerCase()));
 
+     // loops through filtered ingredients and add them if they are not already saved
     filteredIngredients.forEach((name) => {
       const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
 
-
+      
       if (!existingNames.has(formattedName.toLowerCase())) {
+        // assign a unique ID to the new ingredient
         const newId = savedIngredients.length > 0
           ? Math.max(...savedIngredients.map((ing) => ing.id)) + 1
           : 1;
 
         savedIngredients.push({ id: newId, name: formattedName });
-        existingNames.add(formattedName.toLowerCase());
+        existingNames.add(formattedName.toLowerCase()); // Add to the Set to prevent duplicates
       }
     });
 
     localStorage.setItem("mySavedIngredients", JSON.stringify(savedIngredients));
-    console.log("Updated ingredients:", savedIngredients);
+    //console.log("Updated ingredients:", savedIngredients);
   };
 
 
@@ -161,8 +175,6 @@ const ScanReceipts = () => {
   const handleDiscard = async () => {
     setImageSrc(null);
     setModalIsOpen(false);
-
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" },
@@ -190,10 +202,6 @@ const ScanReceipts = () => {
   generateKey().then((key) => {
     console.log(key);
   });
-  
-
-
-
 
 
   return (
